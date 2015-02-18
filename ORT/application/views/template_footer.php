@@ -38,31 +38,26 @@
 <script src="<?php echo base_url()?>assets/plugins/dataTables/jquery.dataTables.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/dataTables/dataTables.bootstrap.js"></script>
 
+<!--include jquery steps master for wizards-->
+<script src="<?php echo base_url()?>assets/plugins/jquery-steps-master/lib/jquery.cookie-1.3.1.js"></script>
+<script src="<?php echo base_url()?>assets/plugins/jquery-steps-master/build/jquery.steps.js"></script>  
+<!--<script src="<?php echo base_url()?>assets/js/WizardInit.js"></script> -->
+
+<!--include bootstrap file-->
+<!--<script src="<?php echo base_url()?>assets/js/bootstrap.min.js"></script>-->
+<script src="<?php echo base_url()?>assets/js/jquery.bootstrap.wizard.js"></script>
+<!--<script src="<?php echo base_url()?>assets/js/jquery-1.11.2.min.js"></script>-->
+<!--<script src="<?php echo base_url()?>assets/js/jquery-latest.js"></script>-->
+<!-- <script src="http://code.jquery.com/jquery-latest.js"></script> -->
 
 <script>
     $(function () { formValidation(); });
 </script>
 <script src="<?php echo base_url()?>assets/js/formsInit.js"></script>
 <script>
-    $(function () { formInit(); });
-   
-    //alert($('#work-item-type').val());
-     console.log('test');
-   // alert('dssd');     
-    $('#submission-deadline').datepicker({ dateFormat: 'dd-mm-yy'});
-    $('#date-picker').datepicker();
-
-    $('#work-item-type').change(function(){
-        var a;
-    });
-</script>  
-
-
-<script>
-   
- $(document).ready(function() {
+    function DataTablesExample(table){
     var indexOfMyCol = 0;
-    var oTable = $('#dataTables-example').DataTable( {
+    var oTable = table.DataTable( {
         initComplete: function () {
             var api = this.api();
             
@@ -87,7 +82,34 @@
     } );
 
     oTable.column(indexOfMyCol).footer().innerHTML="<p></p>";
-   // console.log('indexOfMyCol: '+indexOfMyCol);
+  } 
+ $(document).ready(function() {
+       
+    var indexOfMyCol = 0;
+    var oTable = $('#dataTables-example').DataTable( {
+        initComplete: function () {
+            var api = this.api();
+            
+          //var colnum = oTable.fnGetData().length;
+            
+            api.columns().indexes().flatten().each( function ( i ) {
+                var column = api.column(i);
+                indexOfMyCol=i;
+                var select = $('<select><option value=""></option></select>').appendTo( $(column.footer()).empty() ).on( 'change', function () {
+                       // alert($(this).val());
+                       //var val = $.fn.dataTable.util.escapeRegex($(this).val()); 
+                        //alert(val);
+                        column.search( $(this).val() ? '^'+$(this).val()+'$' : '', true, false ).draw();
+                    } );
+
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        }
+    } );
+
+    oTable.column(indexOfMyCol).footer().innerHTML="<p></p>";
 });
 
 

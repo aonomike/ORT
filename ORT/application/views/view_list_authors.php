@@ -7,7 +7,13 @@
         </div>
 
         <hr />
-	
+		<?php if (isset($success)) { ?>
+			<div class="alert alert-success alert-block fade in" id="success-alert">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<h4>Success</h4>
+					<p><?php echo $success; ?> </p>
+				</div><!--end alert-->
+		<?php }; ?>
 		<div class="row">
 		    <div class="col-lg-12">
 		        <div class="panel panel-default">

@@ -54,7 +54,7 @@ class Work_item_type_stage extends CI_Controller
 		{
 
 			$data['work_item_types']=$this->Work_item_type_model->get_all_work_item_types();
-			$data['stages']=$this->Stage_model->get_all_stages();
+			$data['stages']=$this->stage_model->get_all_stages();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
 			$data['main_content']='view_create_work_item_type_stage';
@@ -70,13 +70,13 @@ class Work_item_type_stage extends CI_Controller
 		}
 		else
 		{
-			$this->form_validation->set_rules('work-item-type','Work Item Type','trim|required|xss_clean');
-			$this->form_validation->set_rules('stage','Stage','trim|required|xss_clean');
+			$this->form_validation->set_rules('work-item-type-for-stage','Work Item Type','trim|required|xss_clean');
+			$this->form_validation->set_rules('stage-id','Stage','trim|required|xss_clean');
 			
 			if($this->form_validation->run())
 			{
-				 $data = array('work_type' =>$this->input->post('work-item-type') ,
-				 	'stage'=>$this->input->post('stage'),
+				 $data = array('work_type' =>$this->input->post('work-item-type-for-stage') ,
+				 	'stage'=>$this->input->post('stage-id'),
 				 	'date_created' =>date('Y-m-d H:i:s'),
 				 	'created_by' =>$this->session->userdata('user_id'),
 				 	'last_updated_by' =>$this->session->userdata('user_id'),
@@ -89,7 +89,7 @@ class Work_item_type_stage extends CI_Controller
 			else
 			{
 				$data['work_item_types']=$this->Work_item_type_model->get_all_work_item_types();
-				$data['stages']=$this->Stage_model->get_all_stages();
+				$data['stages']=$this->stage_model->get_all_stages();
 				$data['template_header']='template_header';
 				$data['template_footer']='template_footer';
 				$data['main_content']='view_create_work_item_type_stage';
@@ -110,7 +110,7 @@ class Work_item_type_stage extends CI_Controller
 		{
 			$data['work_item_type_stage']=$this->Work_type_stage_model->get_work_type_stage_by_id($id);
 			$data['work_item_types']=$this->Work_item_type_model->get_all_work_item_types();
-			$data['stages']=$this->Stage_model->get_all_stages();
+			$data['stages']=$this->stage_model->get_all_stages();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
 			$data['main_content']='view_edit_work_item_type_stage';

@@ -13,6 +13,13 @@ class Author_model extends CI_Model
 		$this->db->insert('author',$data);
 
 	}
+
+	public function create_new_author_and_return_new_id($data)
+	{
+		$this->db->insert('author',$data);
+		$new_id=$this->db->insert_id();
+		return $new_id;
+	}
 	//update author by id
 	public function	update_author_by_id($author_id,$data)
 	{
@@ -87,11 +94,49 @@ class Author_model extends CI_Model
 		}
 	}
 
+	public function get_authors_not_inserted_for_work_item($work_item_id)
+	{
+		$sql='SELECT author.author_id, s.first_name, s.second_name, s.last_name
+		FROM author
+		INNER JOIN staff s ON author.staff_id = s.staff_id
+		WHERE author.author_id NOT
+		IN (
+
+		SELECT a.author_id
+		FROM author a
+		INNER JOIN work_item_author w ON w.author_id = a.author_id
+		WHERE w.work_item_id =';
+		$sql.=$work_item_id;
+		$sql.=')';
+
+		$query=$this->db->query($sql);
+		if($query->num_rows()>0)
+		{
+			foreach ($query->result() as $qvalue) {
+				
+					$author_detail[]=$qvalue;			
+								
+			}
+			return $author_detail;
+		}		
+		else
+		{
+			return false;
+		}
+		
+	}
+
+	public function get_authors_types_except_lead_author($work_item_id)
+	{
+		
+	}
+
+
 	public function get_author_details()
 	{
 		$q="SELECT author_id, a.staff_id  ,a.date_created  ,a.created_by, a.date_last_updated ,a.last_updated_by 
 				  as author_type_description  ,s.first_name  ,s.last_name  ,s.second_name  FROM author a 
-  					JOIN staff S on s.staff_id=a.staff_id";
+  				  JOIN staff S on s.staff_id=a.staff_id";
 		$query=$this->db->query($q);
 		if($query->num_rows()>0)
 		{

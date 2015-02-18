@@ -86,7 +86,17 @@ class Work_item_status extends CI_Controller
 				 	'date_last_updated' =>date('Y-m-d  H:i:s')
 				 	 );
 				   $this->work_item_status_model->create_work_item_status($data);
-				   $this->list_work_item_status();
+
+				  	$data['success']= 'Work Item '.$this->input->post('title').' Created Succesfully.';
+				  	$work_item_status=$this->work_item_status_model->get_all_work_item_status_details();
+					$data['work_item_status']=$work_item_status;
+					$data['template_header']='template_header';
+					$data['template_footer']='template_footer';
+					$data['main_content']='view_list_work_item_status';
+					$data['title']='List Work Item Status';
+					$data['page_heading']='Work Item Status';
+					$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+					$this->load->view('template',$data);
 			}
 
 			else

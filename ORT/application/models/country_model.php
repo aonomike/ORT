@@ -69,6 +69,27 @@ class Country_model extends CI_Model
 
 	}
 
+	public function get_countries()
+	{
+		$this->db->select();
+		$this->db->from('country');
+		$this->db->order_by('Name','asc');
+		$query=$this->db->get();
+
+		if($query->num_rows()>0)
+		{
+			foreach ($query->result() as $row) {
+				# code...
+				$rows[]=$row;
+			}
+			return $rows;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	//get country by id
 	public function get_country_by_id($id)
 	{
@@ -87,4 +108,4 @@ class Country_model extends CI_Model
 	}
 
 
-}-
+}

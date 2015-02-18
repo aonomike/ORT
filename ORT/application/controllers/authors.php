@@ -98,6 +98,45 @@ class Authors extends CI_Controller
 		}
 
 	}
+
+	public function get_authors_not_inserted_for_work_item_with_jpost($work_item_id)
+	{
+		
+	}
+
+	public function Create_missing_authors()
+	{
+		$title=$this->input->post('title');
+		$first_name=$this->input->post('first_name');
+		$second_name=$this->input->post('second_name');
+		$last_name=$this->input->post('last_name');
+		$organisation=$this->input->post('organisation');
+		$country=$this->input->post('country');
+		$designation=$this->input->post('designation');
+		$data = array(
+						'title' => $title,
+						'first_name'=>$first_name,
+						'last_name'=>$last_name,
+						'second_name'=>$second_name,
+						'organisation'=>$organisation,
+						'designation_id'=>$designation,
+						'country'=>$country,
+						'date_created' =>date('Y-m-d H:i:s'),
+					 	'created_by' =>$this->session->userdata('user_id'),
+					 	'updated_by' =>$this->session->userdata('user_id'),
+					 	'date_updated' =>date('Y-m-d H:i:s') 
+					);
+		$new_staff_id=$this->staff_model->create_staff_and_return_new_id($data);
+		$author_data = array('staff_id' =>$new_staff_id);
+		$new_author_id=$this->author_model->create_new_author_and_return_new_id($author_data);
+
+		echo json_encode($new_author_id);
+
+
+
+
+									
+	}
 }
 
 

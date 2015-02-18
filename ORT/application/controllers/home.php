@@ -7,6 +7,7 @@ class Home extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('rbac_model');
+		$this->load->model('work_item_model');
 	}
 	public function check_login(){
 		if(!$this->session->userdata('is_logged_in'))
@@ -26,9 +27,10 @@ class Home extends CI_Controller
 				return;
 			}
 			else{
+					$data['work_item']=$this->work_item_model->search_work_item();
 					$data['template_header']='template_header';
 					$data['template_footer']='template_footer';
-					$data['main_content']='home_page';
+					$data['main_content']='view_list_workitems';
 					$data['title']='OR Tracking System';
 					$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
 					$this->load->view('template',$data);

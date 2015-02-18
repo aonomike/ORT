@@ -13,15 +13,15 @@ class Work_item_stage_output_model extends CI_Model
 
 	}
 	//update work_item_stage_output by id
-	public function	update_work_item_stage_output_by_id($work_item_stage_output_id,$data)
+	public function	update_work_item_stage_output_by_id($upload_document_id,$data)
 	{
-		$this->db->where('id', $work_item_stage_output_id);
+		$this->db->where('upload_document_id', $upload_document_id);
 		$this->db->update('work_item_stage_output',$data);
 	}
 	//void work_item_stage_output
 	public function void_work_item_stage_output_by_id($work_item_stage_output_id)
 	{
-		$data= array('is_deleted'=>1);
+		$data= array('voided'=>1);
 		$this->db->where('id',$work_item_stage_output_id);
 		$this->db->update('work_item_stage_output',$data);
 	}
@@ -30,7 +30,7 @@ class Work_item_stage_output_model extends CI_Model
 	public function void_multiple_work_item_stage_output_by_id($ids)
 	{
 		$data= array('is_deleted'=>1);
-		$this->db->where_in('id',$ids);
+		$this->db->where_in('upload_document_id',$ids);
 		$this->db->update('work_item_stage_output',$data);
 	}
 
@@ -72,7 +72,7 @@ class Work_item_stage_output_model extends CI_Model
 	//get work_item_stage_output by id
 	public function get_work_item_stage_output_by_id($id)
 	{
-		$this->db->where('id',$id);
+		$this->db->where('upload_document_id',$id);
 		$this->db->select();
 		$query=$this->db->get('work_item_stage_output');
 
@@ -88,12 +88,17 @@ class Work_item_stage_output_model extends CI_Model
 
 	public function get_all_work_item_stage_output_details()
 	{
-		$sql='	SELECT wi.work_item_id, wi.description as title, wi.submission_deadline, wt.description AS work_item_type, s.description AS stage, s.stage_id, wis.id as work_item_stage_output_id
-				FROM work_item wi
-				JOIN work_item_stage wis ON wis.work_item_id = wi.work_item_id			
-				JOIN work_item_stage_output wiso ON wiso.work_item_stage = wis.id
-				JOIN stage s ON wis.stage = s.stage_id
-				LEFT JOIN work_type wt ON wt.work_type_id = wi.work_type';
+		$sql='	SELECT ud.upload_document_id, ud.orig_name, ud.upload_path, ud.description, ud.voided, ud.version, ud.description, ud.file_name, 
+				wiso.id AS work_item_stage_output_id, wiso.Comments, wiso.work_item_stage, wiso.document, wiso.voided, wi.description AS work_item, wi.submission_deadline,
+				wis.id as work_item_id, wit.description AS work_item_type, stage.description AS stage
+				FROM uploaded_document ud
+				JOIN work_item_stage_output wiso ON wiso.document = ud.upload_document_id
+				JOIN work_item_stage wis ON wis.id = wiso.work_item_stage
+				JOIN work_item wi ON wis.work_item_id = wi.work_item_id
+				JOIN work_type wit ON wi.work_type = wit.work_type_id
+				JOIN stage ON wis.stage = stage.stage_id
+				WHERE wiso.voided=';
+		$sql.=0;
 		$query=$this->db->query($sql);
 
 		if($query->num_rows()>0)
@@ -128,4 +133,38 @@ class Work_item_stage_output_model extends CI_Model
 			return false;
 		}
 	}
+
+	public function get_work_item_stage($work_item, $stage){
+		$sql= 'SELECT id, work_item_id, stage, responsible FROM work_item_stage WHERE work_item_id='.$work_item.' and stage='.$stage;		
+		$query=$this->db->query($sql);
+		if($query->num_rows()>0)
+		{
+			foreach ($query->result() as $row) {
+				# code...
+				$rows[]=$row;				
+			}
+			return $rows;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public function get_document_path_to_download($upload_id)
+	{
+		$this->db->where('upload_document_id', $upload_id);
+		$this->db->select();
+		$query=$this->db->get('uploaded_document');
+
+		if($query->num_rows()==1)
+		{
+			return $query->row();
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 }

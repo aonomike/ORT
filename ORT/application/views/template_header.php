@@ -23,7 +23,7 @@
         <![endif]-->
     <!-- GLOBAL STYLES -->
     <!-- GLOBAL STYLES -->
-    <link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="<?php echo base_url()?>assets/css/main.css" />
     <link rel="stylesheet" href="<?php echo base_url()?>assets/css/theme.css" />
     <link rel="stylesheet" href="<?php echo base_url()?>assets/css/MoneAdmin.css" />
@@ -36,6 +36,15 @@
     <!-- PAGE LEVEL STYLES -->
      <link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/validationengine/css/validationEngine.jquery.css" />
      <link href="<?php echo base_url()?>assets/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+       <!-- PAGE LEVEL STYLES for wizard management-->
+    <link href="<?php echo base_url();?>assets/plugins/jquery-steps-master/demo/css/normalize.css" rel="stylesheet" />
+    <link href="<?php echo base_url();?>assets/plugins/jquery-steps-master/demo/css/wizardMain.css" rel="stylesheet" />
+    <link href="<?php echo base_url();?>assets/plugins/jquery-steps-master/demo/css/jquery.steps.css" rel="stylesheet" />   
+
+    <!-- Include bootstrap  -->  
+    <!--<link rel="stylesheet" href="<?php echo base_url()?>assets/css/bootstrap.min.css" />-->
+
+
     <!-- END PAGE LEVEL  STYLES -->
    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -325,12 +334,16 @@
                 </div>
                 <br />
             </div>
+
+
                <?php 
 
                     if (isset($rights))
                         {
+
                             if (is_array($rights))
-                                {?>
+                                {  //print_r($rights);
+                                    ?>
             <ul id="menu" class="collapse">
                 <li class="panel">
                     <a href="<?php echo base_url()?>Home/load_home_page" >
@@ -444,8 +457,12 @@
                         <?php } ?>
                         <?php if(in_array("list work item stage outputs", $right_array, true)) 
                             {?>
-                                <li class=""><a href="<?php echo base_url();?>Work_item_stage_output/list_work_item_stage_output"><i class="icon-angle-right"></i> Work Item Stage Output </a></li>    
+                                <li class=""><a href="<?php echo base_url();?>Work_item_stage_output/list_work_item_stage_output"><i class="icon-angle-right"></i> Work Item Stage Output </a></li>
+
                             <?php } ?>
+
+                            
+                                <li class=""><a href="<?php echo base_url();?>Work_item_stage_output/receive_output_form"><i class="icon-angle-right"></i> Receive Document</a></li>  
                     </ul>
 
                 </li>

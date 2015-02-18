@@ -39,6 +39,7 @@
 */
 
 $route['default_controller'] = "users";
+$route['add_author/:num']="Work_item/edit_work_items_form/$1";
 $route['404_override'] = '';
 
 

@@ -7,6 +7,7 @@ class Users extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('users_model');
+		$this->load->model('work_item_model');
 		$this->load->model('staff_model');
 		$this->load->model('user_type_model');
 		$this->load->model('rbac_model');
@@ -78,9 +79,10 @@ class Users extends CI_Controller
 				//$this->session->sess_destroy();
 				if(!$this->check_login())
 				{
+					$data['work_item']=$this->work_item_model->search_work_item();
 					$data['template_header']='template_header';
 					$data['template_footer']='template_footer';
-					$data['main_content']='home_page';
+					$data['main_content']='view_list_workitems';
 					$data['title']='OR Tracking System';
 					$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));					
 					$this->load->view('template',$data);

@@ -28,20 +28,20 @@
                                                 echo form_open('Work_item_type_stage/create_work_item_type_stage',$attributes);
                                              ?> 
                                      <div class="form-group">
-                                        <label class="control-label col-lg-4" for="work-item-type">Work Item Type</label>
+                                        <label class="control-label col-lg-4" for="work-item-type-for_stage">Work Item Type</label>
                                         <div class="col-lg-4">
-                                            <select id="work-item-type" name="work-item-type" class="form-control" required="required">
-                                                    <option ></option>
-                                                    <?php foreach ($work_item_types as $work_item_type):  ?>  
-                                                        <option value="<?php echo $work_item_type->work_type_id ?>"><?php echo $work_item_type->description ?></option> 
-                                                    <?php endforeach; ?> 
-                                                </select>
+                                            <select id="work-item-type-for-stage" name="work-item-type-for-stage" class="form-control" required="required">
+                                                <option ></option>
+                                                <?php foreach ($work_item_types as $work_item_type):  ?>  
+                                                    <option value="<?php echo $work_item_type->work_type_id ?>"><?php echo $work_item_type->description ?></option> 
+                                                <?php endforeach; ?> 
+                                            </select>
                                         </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="stage" class="control-label col-lg-4">Stage</label>
+                                            <label for="stage-id" class="control-label col-lg-4">Stage</label>
                                             <div class="col-lg-4">
-                                            <select id="stage" name="stage" class="form-control" required="required">
+                                            <select id="stage-id" name="stage-id" class="form-control" required="required">
                                                     <option ></option>
                                                     <?php foreach ($stages as $stage):  ?>  
                                                         <option value="<?php echo $stage->stage_id ?>"><?php echo $stage->description ?></option> 

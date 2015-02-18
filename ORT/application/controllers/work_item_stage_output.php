@@ -37,7 +37,7 @@ class Work_item_stage_output extends CI_Controller
 			return ;
 		}
 		else
-		{			
+		{				
 			$data['work_item_stage_outputs']=$this->work_item_stage_output_model->get_all_work_item_stage_output_details();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
@@ -55,6 +55,7 @@ class Work_item_stage_output extends CI_Controller
 		}
 		else
 		{
+			$data['error']='';
 			$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
 			$data['work_items']=$this->work_item_model->get_all_work_items();
 			$data['stages']=$this->stage_model->get_all_stages();
@@ -83,9 +84,12 @@ class Work_item_stage_output extends CI_Controller
 			{
 				$work_item_type= $this->input->post('work-item-type-filter');
 				$upload_description= $this->input->post('description');
-				$work_item= $this->input->post('work_item');
+				$work_item_posted= $this->input->post('work-item');				
 				$work_item_type= $this->input->post('work-item-type-filter');
 				$comments= $this->input->post('comments');
+				$version = $this->input->post('version');
+				$work_item_stage=$this->input->post('stage');
+				//echo($work_item_stage);
 				
 
 				$upload_path="";
@@ -120,9 +124,17 @@ class Work_item_stage_output extends CI_Controller
 					$this->upload->initialize($config);
 					 if ( !$this->upload->do_upload())
 						{
-							$error = array('error' => $this->upload->display_errors());
-							
-							$this->load->view('view_upload_document', $error);
+							$data['error']=$this->upload->display_errors();
+							$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
+							$data['work_items']=$this->work_item_model->get_all_work_items();
+							$data['stages']=$this->stage_model->get_all_stages();
+							$data['status']=$this->status_model->get_all_status();
+							$data['template_header']='template_header';
+							$data['template_footer']='template_footer';
+							$data['main_content']='view_create_work_item_stage_output';
+							$data['title']='Create Work Items Stage Output Form';
+							$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+							$this->load->view('template',$data);
 						}
 						else
 						{
@@ -149,27 +161,30 @@ class Work_item_stage_output extends CI_Controller
 							 						'raw_name' =>$raw_name ,
 							 						'orig_name' =>$orig_name ,
 							 						'client_name' =>$client_name ,	
-							 						'description' =>$client_name ,						
-							 						'upload_path' =>$upload_path.''.$file_name, 
+							 						'description' =>$upload_description ,						
+							 						'upload_path' =>$upload_path.''.$client_name, 
 							 						'created_by' =>$this->session->userdata('user_id') ,
 							 						'last_update_by' =>$this->session->userdata('user_id') ,
 							 						'date_updated' =>date('Y-m-d H:i:s')
 							 						,'voided'=>0
-							 						,'version'=>$version);
-							 $new_doc_id=$this->document_model->create_document_and_return_new_id($document_data);
+							 						,'version'=>$version);							
+							$new_doc_id = $this->document_model->create_document_and_return_new_id($document_data);
+							$work_item_stage_id=$this->work_item_stage_output_model->get_work_item_stage($work_item_posted,$work_item_stage);
+							print_r($work_item_stage_id);
+							// $work_item_stage_output_data= array( 'work_item_stage' =>$work_item_stage_id ,
+							//   						'Comments' =>$comments ,
+							//   						'document' =>$new_doc_id , 
+							//   						'date_created' =>date('Y-m-d H:i:s') ,
+							//   						'created_by' =>$this->session->userdata('user_id') ,
+							//   						'last_updated_by' =>$this->session->userdata('user_id') ,
+							//   						'last_update_date' =>date('Y-m-d H:i:s')
+							//   						,'voided'=>0
+							//   						,'work_item'=>$work_item_posted);
 
-							 $work_item_stage_output_data= array( 'work_item_stage' =>$work_item_stage ,
-							 						'Comments' =>$comments ,
-							 						'document' =>$new_doc_id , 
-							 						'date_created' =>date('Y-m-d H:i:s') ,
-							 						'created_by' =>$this->session->userdata('user_id') ,
-							 						'last_update_by' =>$this->session->userdata('user_id') ,
-							 						'last_update_date' =>date('Y-m-d H:i:s')
-							 						,'voided'=>0);
+							// $this->work_item_stage_output_model->create_work_item_stage_output($work_item_stage_output_data);
 
-							 $this->work_item_stage_output_model->create_work_item_stage_output($work_item_stage_output_data);
 
-							//$this->load->view('view_upload_success', $data);
+							// $this->load->view('view_upload_success', $data);
 							$data['success']='Document has been successfuly uploaded';
 							$data['work_item_stage_outputs']=$this->work_item_stage_output_model->get_all_work_item_stage_output_details();
 							$data['template_header']='template_header';
@@ -184,44 +199,68 @@ class Work_item_stage_output extends CI_Controller
 				}
 				else
 				{
-					echo "false";
+					$data['error']='The directory for the work item type '.$work_item_type.' does not exist. Please consult your Administrator';
+					$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
+					$data['work_items']=$this->work_item_model->get_all_work_items();
+					$data['stages']=$this->stage_model->get_all_stages();
+					$data['status']=$this->status_model->get_all_status();
+					$data['template_header']='template_header';
+					$data['template_footer']='template_footer';
+					$data['main_content']='view_create_work_item_stage_output';
+					$data['title']='Create Work Items Stage Output Form';
+					$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+					$this->load->view('template',$data);
 				}
 			}
 			else
 			{
-				echo "string";
+				$data['error']='';
+				$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
+				$data['work_items']=$this->work_item_model->get_all_work_items();
+				$data['stages']=$this->stage_model->get_all_stages();
+				$data['status']=$this->status_model->get_all_status();
+				$data['template_header']='template_header';
+				$data['template_footer']='template_footer';
+				$data['main_content']='view_create_work_item_stage_output';
+				$data['title']='Create Work Items Stage Output Form';
+				$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+				$this->load->view('template',$data);
 			}
-	
-		
-		// 	// 	 /*$data = array('work_item_id' =>$this->input->post('work-item') ,
-		// 	// 	 	'stage'=>$this->input->post('stage'),
-		// 	// 	 	'date_created' =>date('Y-m-d H:i:s'),
-		// 	// 	 	'created_by' =>$this->session->userdata('user_id'),
-		// 	// 	 	'last_update_by' =>$this->session->userdata('user_id'),
-		// 	// 	 	'last_update_date' =>date('Y-m-d  H:i:s')
-		// 	// 	 	 );
-		// 	// 	   $this->work_item_stage_model->create_work_item_stage($data);
-		// 	// 	   $this->list_work_item_stage();*/
-		// 	// }
-
-		// 	// else
-		// 	// {
-		// 	// 	//$this->create_work_item_stage_form();
-		// 	// 	echo "file failed";
-		// 	// }
-
-			
 		}
 	}
 
-	public function download_output($file_name)
+	public function download_output($upload_id)
 	{
 		if ($this->check_login()) {
 			return ;
 		}
 		else
 		{
+			$download_document= $this->work_item_stage_output_model->get_document_path_to_download($upload_id);
+			$upload_path=$download_document->upload_path;
+			if (is_file($upload_path))
+			{
+				$this->load->helper('download');
+				$data = file_get_contents($upload_path); // Read the file's contents
+				$name = $download_document->file_name;
+				force_download($name, $data); 
+							
+			}
 
+			else
+			{
+				$data['error_message']=true;
+				$data['success']="The file path provided (".$upload_path.") does not exist. Please consult your Administrator";
+				$data['work_item_stage_outputs']=$this->work_item_stage_output_model->get_all_work_item_stage_output_details();
+				$data['template_header']='template_header';
+				$data['template_footer']='template_footer';
+				$data['main_content']='view_list_workitem_stage_output';
+				$data['title']='List Work Item Stage Output';
+				$data['page_heading']='Work Item Stage Output';
+				$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));			
+				$this->load->view('template',$data);
+			}
+			
 		}
 	}
 
@@ -254,19 +293,22 @@ class Work_item_stage_output extends CI_Controller
 		}
 	}
 
-	public function delete_work_item_stage($id){
+	public function void_work_item_stage_output($id){
 		if ($this->check_login()) {
 			return ;
 		}
 		else
 		{
-			$data['work_item_stage']=$this->Work_item_stage_model->void_work_type_stage_by_id($id);			
-			$data['template_header']='template_header';
-			$data['template_footer']='template_footer';
-			$data['main_content']='view_edit_work_item_stage';
-			$data['title']='Create Work Items Type Stage Form';
-			$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
-			$this->load->view('template',$data);
+			 	$this->work_item_stage_output_model->void_work_item_stage_output_by_id($id);			
+				$data['success']="Output successfuly voided";
+				$data['work_item_stage_outputs']=$this->work_item_stage_output_model->get_all_work_item_stage_output_details();
+				$data['template_header']='template_header';
+				$data['template_footer']='template_footer';
+				$data['main_content']='view_list_workitem_stage_output';
+				$data['title']='List Work Item Stage Output';
+				$data['page_heading']='Work Item Stage Output';
+				$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));			
+				$this->load->view('template',$data);			
 		}
 	}
 
@@ -276,6 +318,46 @@ class Work_item_stage_output extends CI_Controller
 		echo(json_encode($stages));
 	}
 
+	public function receive_output_form()
+	{
+		if ($this->check_login()) {
+			return ;
+		}
+		else
+		{
+			$data['error']='';
+			$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
+			$data['work_items']=$this->work_item_model->get_all_work_items();
+			$data['stages']=$this->stage_model->get_all_stages();
+			$data['status']=$this->status_model->get_all_status();
+			$data['template_header']='template_header';
+			$data['template_footer']='template_footer';
+			$data['main_content']='view_receive_document';
+			$data['title']='Create Work Items Stage Output Form';
+			$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+			$this->load->view('template',$data);
+		}	
+	}
 
+	public function create_new_document_entry_with_jpost(){
+		if($this->check_login())
+		{
+			return;
+		}
+		else
+		{
+			$date_received=$this->input->post('date_received');
+			$work_item_id=$this->input->post('work_item');
+            $work_item_type= $this->input->post('work_item_type');
+            $stage= $this->input->post('stage');
+
+           
+            {
+
+            }
+
+
+		}
+	}
 
 }

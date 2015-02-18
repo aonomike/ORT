@@ -15,7 +15,13 @@
         </div>
 
         <hr />
-	
+		<?php if (isset($success)) { ?>
+			<div class="alert alert-success alert-block fade in" id="success-alert">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<h4>Success</h4>
+					<p><?php echo $success; ?> </p>
+				</div><!--end alert-->
+		<?php }; ?>
 		<div class="row">
 		    <div class="col-lg-12">
 		        <div class="panel panel-default">
@@ -29,7 +35,7 @@
 		                            <tr>
 		                            	<td colspan="5">
 			                            	<div class="toolbar">
-							                    <a href="<?php echo base_url();?>Work_item_author/create_work_items_author_form" class="btn btn-primary btn-line">New</a>							                   
+							                    <a href="<?php echo base_url();?>Work_item_author/create_work_items_author_form/<?php echo $work_item_id ?>" class="btn btn-primary btn-line">New</a>							                   
 							                </div>
 	                   					</td>
 		                            </tr>
@@ -50,6 +56,7 @@
 		                        </tfoot>
 		                        <tbody>
 		                        	<form>
+		                        		<input type="hidden" name="work-item-id" id="work-item-id" value="<?php echo $work_item_id ?>" />
 		                        		<?php if (is_array($work_item_author)){ ?>
 			                        	    <?php foreach ($work_item_author as $a): ?>
 				                           		<tr class="gradeA">

@@ -12,6 +12,12 @@ class Staff_model extends CI_Model
 		$this->db->insert('staff',$data);
 
 	}
+	public function create_staff_and_return_new_id($data)
+	{
+		$this->db->insert('staff',$data);
+		$new_id=$this->db->insert_id();
+		return $new_id;
+	}
 	//update staff by id
 	public function	update_staff_by_id($staff_id,$data)
 	{

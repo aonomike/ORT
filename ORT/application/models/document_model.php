@@ -15,7 +15,7 @@ class Document_model extends CI_Model
 
 	public function create_document_and_return_new_id($data)
 	{
-		$this->db->insert($data);
+		$this->db->insert('uploaded_document',$data);
 		$insert_id= $this->db->insert_id();
 		return $insert_id;
 	}

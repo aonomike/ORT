@@ -12,7 +12,7 @@ class Upload extends CI_Controller {
 		$this->load->model('work_item_model');
 	}
 
-	function upload_form()
+	public function upload_form()
 	{
 		
 		//$this->load->view('view_upload_document', array('error' => ' ' ));
@@ -28,7 +28,7 @@ class Upload extends CI_Controller {
 		$this->load->view('template',$data);
 	}
 
-	function do_upload()
+	public function do_upload()
 	{
 		$config['upload_path'] = 'uploads/';
 		// var_dump(is_dir('uploads/')).'</br>';

@@ -6,7 +6,7 @@ class Designation_model extends CI_Model
 		parent::__construct();		
 	}
 
-	public function get_designation()
+	public function get_designations()
 	{
 		$this->db->select();
 		$this->db->from('Designation');
