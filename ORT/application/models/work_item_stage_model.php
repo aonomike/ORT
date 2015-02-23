@@ -12,6 +12,13 @@ class Work_item_stage_model extends CI_Model
 		$this->db->insert('work_item_stage',$data);
 
 	}
+
+	public function create_work_item_stage_and_return_new_id($data)
+	{
+		$this->db->insert('work_item_stage',$data);
+		$new_id=$this->db->insert_id();
+		return $new_id;
+	}
 	//update work_item_stage by id
 	public function	update_work_item_stage_by_id($work_item_stage_id,$data)
 	{
@@ -88,11 +95,36 @@ class Work_item_stage_model extends CI_Model
 
 	public function get_all_work_item_stage_details()
 	{
+
 		$sql='	SELECT wi.work_item_id, wi.description as title, wi.submission_deadline, wt.description AS work_item_type, s.description AS stage, s.stage_id, wis.id as work_item_stage_id
 				FROM work_item wi				
 				JOIN work_item_stage wis ON wis.work_item_id = wi.work_item_id
 				JOIN stage s ON wis.stage = s.stage_id
 				LEFT JOIN work_type wt ON wt.work_type_id = wi.work_type';
+		$query=$this->db->query($sql);
+
+		if($query->num_rows()>0)
+		{
+			foreach ($query->result() as $row) {
+				# code...
+				$rows[]=$row;
+			}
+			return $rows;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public function get_all_work_item_stage_by_work_item_id($work_item_id)
+	{
+		$sql='	SELECT wi.work_item_id, wi.description as title, wi.submission_deadline, s.description AS stage, s.stage_id, wis.id as work_item_stage_id
+				FROM work_item wi				
+				JOIN work_item_stage wis ON wis.work_item_id = wi.work_item_id
+				JOIN stage s ON wis.stage = s.stage_id
+				WHERE wi.work_item_id=';
+		$sql.=$work_item_id;
 		$query=$this->db->query($sql);
 
 		if($query->num_rows()>0)
@@ -130,7 +162,7 @@ class Work_item_stage_model extends CI_Model
 
 	public function get_work_item_stage_by_work_item_id($work_item_id)
 	{
-		$sql='	SELECT wis.id, wis.work_item_id, wis.stage, wis.date_created, wis.created_by, wis.last_update_date, wis.last_update_date, wis.responsible, s.description AS stage, status.description AS stage_status
+		$sql='	SELECT wis.id, wis.work_item_id, wis.stage, wis.date_created, wis.created_by, wis.last_update_date, wis.last_update_date, s.description AS stage, status.description AS stage_status
 				FROM work_item_stage wis
 				JOIN stage s ON s.stage_id = wis.stage
 				LEFT JOIN work_item_stage_status wiss ON wiss.work_item_stage = wis.id

@@ -94,6 +94,8 @@ class Author_model extends CI_Model
 		}
 	}
 
+	
+
 	public function get_authors_not_inserted_for_work_item($work_item_id)
 	{
 		$sql='SELECT author.author_id, s.first_name, s.second_name, s.last_name

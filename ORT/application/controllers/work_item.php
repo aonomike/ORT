@@ -60,6 +60,7 @@ class Work_item extends CI_Controller
 			$data['author_types']=$this->author_type_model->get_all_authors_types();	
 			$data['work_item_type']=$this->Work_item_type_model->get_all_work_item_types();
 			$data['author']=$this->author_model->get_author_details();
+			//$data['work_items']=$this->work_item_model->get_author_details();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
 			$data['main_content']='view_create_workitems';
@@ -290,6 +291,21 @@ class Work_item extends CI_Controller
 			$data['title']='Receive Document';
 			$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));	
 			$this->load->view('template',$data);
+		}
+		
+	}
+
+	public function get_work_item_by_type()
+	{
+		if($this->check_login())
+		{
+			return;
+		}
+		else
+		{
+			$work_item_type=$this->input->post('work_item_type');
+			$work_items=$this->work_item_model->get_work_item_by_type($work_item_type);
+			echo json_encode($work_items);
 		}
 		
 	}

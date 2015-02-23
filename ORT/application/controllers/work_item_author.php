@@ -61,6 +61,7 @@ class Work_item_author extends CI_Controller
 		{
 
 			$work_item_author=$this->Work_item_author_model->get_all_work_item_author_details_by_work_item_id($work_item_id);	
+			$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_id);
 			$data['work_item_author']=$work_item_author;
 			$data['work_item_id']=$work_item_id;
 			$data['template_header']='template_header';
@@ -147,15 +148,14 @@ class Work_item_author extends CI_Controller
 		}
 		else
 		{
-			$this->form_validation->set_rules('work-item-type-filter','Work Item Type','trim|required|xss_clean');
-			$this->form_validation->set_rules('work-item','Work Item','trim|required|xss_clean');
 			$this->form_validation->set_rules('author','Author','trim|required|xss_clean');
 			$this->form_validation->set_rules('author-type','Author Type','trim|required|xss_clean');
-			
+			$work_item_id=$this->input->post('work-item-id');
 			if($this->form_validation->run())
 			{
+				
 				 $data = array('author_id' =>$this->input->post('author') , 
-				 	'work_item_id' =>$this->input->post('work-item') ,
+				 	'work_item_id' =>$this->input->post('work-item-id') ,
 				 	'author_type'=>$this->input->post('author-type'),
 				 	'date_created' =>date('Y-m-d H:i:s'),
 				 	'created_by' =>$this->session->userdata('user_id'),
@@ -164,7 +164,8 @@ class Work_item_author extends CI_Controller
 				 	 );
 				   $this->Work_item_author_model->create_work_item_author($data);
 				   
-				   $work_item_author=$this->Work_item_author_model->get_all_work_item_author_details();	
+				  	$work_item_author=$this->Work_item_author_model->get_all_work_item_author_details_by_work_item_id($work_item_id);	
+					$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_id);
 					$data['work_item_author']=$work_item_author;
 					$data['template_header']='template_header';
 					$data['template_footer']='template_footer';

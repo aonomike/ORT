@@ -86,9 +86,8 @@
 							                            			<li>
 									                    				<a href="<?php echo base_url();?>Work_item_author/list_work_item_author_by_work_item_id/<?php echo $work->work_item_id; ?>"><i class="glyphicon glyphicon-font"></i> View Authors </a>
 							                            			</li>
-
 							                            			<li> 
-									                            		<a href="<?php echo base_url();?>Work_item/edit_work_items_form/<?php echo $work->work_item_id; ?>"><i class="icon-edit"></i> View Documents </a>
+									                            		<a href="<?php echo base_url();?>Work_item_stage_output/list_work_item_stage_output_with_workitem_id/<?php echo $work->work_item_id; ?>"><i class="icon-edit"></i> View Documents </a>
 									                           		</li>												                           												                            
 									                           		<li>
 									                            		<a href="<?php echo base_url();?>Work_item/void_work_items_by_id/<?php echo $work->work_item_id; ?>"><i class="icon-remove-circle"></i> View Presentations </a>

@@ -62,6 +62,34 @@
                             <div class="col-lg-4">
                                 <textarea name="details" id="details" cols="52" value="<?php echo set_value('details') ?>"></textarea> 
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="enable_relation" class="control-label col-lg-4"></label>
+
+                            <div class="col-lg-4">
+                                <input type="checkbox" name="enable_relation" id="enable_relation" /> Enable Relation
+                            </div>
+                        </div> 
+                        <div class="form-group" id="relate_to">
+                            <label for="relation_item_type" class="control-label col-lg-4"> Relation Item Type</label>
+
+                            <div class="col-lg-4">
+                                <input type="radio" name="relation_item_type" id="relation_protocol" value="3"/> Protocol     <br/>
+                                <input type="radio" name="relation_item_type" id="relation_abstract" value="2"/> Abstract     <br/>
+                                <input type="radio" name="relation_item_type" id="relation_concept_sheet"  value="4"/> Concept Sheet   <br/>
+                            </div>
+                        </div> 
+                        <div class="form-group" id="relate_to_work_item">
+                            <label for="related-work-item" class="control-label col-lg-4">Relate To</label>
+
+                            <div class="col-lg-4">
+                                <select id="related-work-item" name="related-work-item" class="form-control" required="required">
+                                   <option ></option>
+                                    <?php foreach ($work_items as $s):  ?>  
+                                        <option value="<?php echo $s->work_type_id ?>"><?php echo $s->description ?></option> 
+                                    <?php endforeach; ?> 
+                                </select>
+                            </div>
                         </div> 
                         <div class="form-actions no-margin-bottom" style="text-align:center;">
                             <input type="submit" id="btn-submit" value="Submit" class="btn btn-primary btn-lg " />

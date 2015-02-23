@@ -99,9 +99,11 @@ class Authors extends CI_Controller
 
 	}
 
-	public function get_authors_not_inserted_for_work_item_with_jpost($work_item_id)
+	public function get_author_list()
 	{
-		
+		$work_item_id=$this->input->post('work_item_id');
+		$authors_list=$this->author_model->get_authors_not_inserted_for_work_item($work_item_id);
+		echo json_encode($authors_list);
 	}
 
 	public function Create_missing_authors()
@@ -127,7 +129,13 @@ class Authors extends CI_Controller
 					 	'date_updated' =>date('Y-m-d H:i:s') 
 					);
 		$new_staff_id=$this->staff_model->create_staff_and_return_new_id($data);
-		$author_data = array('staff_id' =>$new_staff_id);
+		$author_data = array(
+								'staff_id' =>$new_staff_id,
+								'date_created' =>date('Y-m-d H:i:s'),
+							 	'created_by' =>$this->session->userdata('user_id'),
+							 	'last_updated_by' =>$this->session->userdata('user_id'),
+							 	'date_last_updated' =>date('Y-m-d H:i:s') 
+							 	);
 		$new_author_id=$this->author_model->create_new_author_and_return_new_id($author_data);
 
 		echo json_encode($new_author_id);

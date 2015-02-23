@@ -89,7 +89,7 @@ class Work_item_stage_output_model extends CI_Model
 	public function get_all_work_item_stage_output_details()
 	{
 		$sql='	SELECT ud.upload_document_id, ud.orig_name, ud.upload_path, ud.description, ud.voided, ud.version, ud.description, ud.file_name, 
-				wiso.id AS work_item_stage_output_id, wiso.Comments, wiso.work_item_stage, wiso.document, wiso.voided, wi.description AS work_item, wi.submission_deadline,
+				wiso.id AS work_item_stage_output_id, wiso.user_remarks, wiso.work_item_stage, wiso.document, wiso.voided, wi.description AS work_item, wi.submission_deadline,
 				wis.id as work_item_id, wit.description AS work_item_type, stage.description AS stage
 				FROM uploaded_document ud
 				JOIN work_item_stage_output wiso ON wiso.document = ud.upload_document_id
@@ -99,6 +99,38 @@ class Work_item_stage_output_model extends CI_Model
 				JOIN stage ON wis.stage = stage.stage_id
 				WHERE wiso.voided=';
 		$sql.=0;
+		$query=$this->db->query($sql);
+
+		if($query->num_rows()>0)
+		{
+			foreach ($query->result() as $row) {
+				# code...
+				$rows[]=$row;
+			}
+			return $rows;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public function get_all_work_item_stage_output_details_by_work_item_id($work_item_id)
+	{
+		$sql='	SELECT ud.upload_document_id, ud.orig_name, ud.upload_path, ud.description, ud.voided, ud.version, ud.description, ud.file_name, 
+				wiso.id AS work_item_stage_output_id, wiso.user_remarks, wiso.work_item_stage, wiso.document, wiso.voided, wi.description AS work_item, wi.submission_deadline,
+				wis.id as work_item_stage_id, wit.description AS work_item_type, stage.description AS stage
+				FROM uploaded_document ud
+				JOIN work_item_stage_output wiso ON wiso.document = ud.upload_document_id
+				JOIN work_item_stage wis ON wis.id = wiso.work_item_stage
+				JOIN work_item wi ON wis.work_item_id = wi.work_item_id
+				JOIN work_type wit ON wi.work_type = wit.work_type_id
+				JOIN stage ON wis.stage = stage.stage_id
+				WHERE wiso.voided=';
+		$sql.=0;
+		$sql.=' AND wis.work_item_id=';
+		$sql.=$work_item_id;
+
 		$query=$this->db->query($sql);
 
 		if($query->num_rows()>0)
@@ -135,7 +167,7 @@ class Work_item_stage_output_model extends CI_Model
 	}
 
 	public function get_work_item_stage($work_item, $stage){
-		$sql= 'SELECT id, work_item_id, stage, responsible FROM work_item_stage WHERE work_item_id='.$work_item.' and stage='.$stage;		
+		$sql= 'SELECT id, work_item_id, stage FROM work_item_stage WHERE work_item_id='.$work_item.' and stage='.$stage;		
 		$query=$this->db->query($sql);
 		if($query->num_rows()>0)
 		{

@@ -2,9 +2,87 @@ $(document).ready(function () {
 	
 //Variable Declarations
 	var new_work_item_id;
+	var work_item_type;
 
+	var enable_relation=$('#enable_relation').is(':checked') ;
+	function enable_or_disable_relation_divs(enable_relation)
+	{
+		if(enable_relation)
+		{
+			$('#relate_to_work_item').show();
+			$('#relate_to').show();
+		}
+		else
+		{
+			$('#relate_to_work_item').hide();
+			$('#relate_to').hide();
+			$('#relation_protocol').prop('checked',false);
+			$('#relation_abstract').prop('checked',false);
+			$('#relation_concept_sheet').prop('checked',false);
+			$('#related-work-item').val(-1);
 
+			
+			$('#relation_protocol').click(function(){
+				work_item_type=$(this).val();
+				get_work_item_by_type(work_item_type);
+			});
+			$('#relation_abstract').click(function(){
+				work_item_type=$(this).val();
+				get_work_item_by_type(work_item_type);
+			});
+			$('#relation_concept_sheet').click(function(){
+				work_item_type=$(this).val();
+				get_work_item_by_type(work_item_type);
+				
+			});		
+		}
+	}
 
+	if($('#relation_concept_sheet').is(':checked'))
+	{
+		work_item_type=$(this).val();
+		get_work_item_by_type(work_item_type);
+	}
+	if($('#relation_concept_sheet').is(':checked'))
+	{
+		work_item_type=$(this).val();
+		get_work_item_by_type(work_item_type);
+	}
+	if($('#relation_concept_sheet').is(':checked'))
+	{
+		work_item_type=$(this).val();
+		get_work_item_by_type(work_item_type);
+	}
+
+	//function to get work item based on work item type
+	function get_work_item_by_type(work_item_type)
+	{
+		var url='/ORT/Work_item/get_work_item_by_type';
+		$.post(url,{'work_item_type':work_item_type},function(returned_data){
+			var html='';
+			$('#related-work-item').html('');
+			$.each(returned_data,function(){
+				
+				html+= '<option value="'+this.work_item_id+'">';
+				html+=this.description;
+				html+='</option>';
+
+			});
+			$('#related-work-item').html(html);
+			$('#related-work-item').val(-1);
+		},'json');
+	}
+	
+	//call function to enable or disable relation to div
+	enable_or_disable_relation_divs(enable_relation);	
+
+	
+
+	//click event on enable relation checkbox
+	$('#enable_relation').click(function(){
+			enable_relation=$(this).is(':checked');
+			enable_or_disable_relation_divs(enable_relation);
+	});
 	//setup Date picker Controls
 	$('#date-received').datepicker();
 	$('#submission-deadline').datepicker();	
@@ -71,13 +149,43 @@ $(document).ready(function () {
 
 			else
 			{
+				var work_item_id=$('#work-items-id').val();
 				var post_url="/ORT/Authors/Create_missing_authors";
+				var new_author_id;
 				$.post(post_url,{'title':title,'first_name':first_name, 'second_name':second_name,
 									'last_name':last_name, 'organisation':organisation,'country':country,
 									'designation':designation},function(returned_data){
-										$('title').selectedIndex=-1;
-										alert(returned_data);
+										new_author_id=returned_data
+										var authors_url="/ORT/Authors/get_author_list";
+										var author_option_string= '<option></option>';
+
+										$.post(authors_url, {'work_item_id':work_item_id},function(data){
+												
+											$.each(data,function(){
+												author_option_string+='<option value="'+this.author_id+'">';
+												author_option_string+=this.first_name+' '+this.second_name+' '+this.last_name;
+												author_option_string+='</option>';
+											});
+											console.log(author_option_string);
+											$('#author').html('');
+											$('#author').html(author_option_string);
+											$('#author').val(new_author_id);
+										},'json');
 									},'json');
+				
+										$('#title').val(-1);
+										$('#organisation').val(-1);
+										$('#country').val(-1);
+										$('#designation').val(-1);
+										$('#first-name').val('');
+										$('#second-name').val('');
+										$('#last-name').val('');
+										$('#telephone').val('');
+										$('#email').val('');
+
+
+
+										
 				
 			}
 		
@@ -111,6 +219,10 @@ $(document).ready(function () {
 
 	$('#second-name').keypress(function(){
 		change_border_color('#second-name');
+
+	});
+	$('#email').keypress(function(){
+		change_border_color('#email');
 
 	});
 	

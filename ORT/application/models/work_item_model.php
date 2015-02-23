@@ -81,6 +81,26 @@ class Work_item_model extends CI_Model
 
 	}
 
+	public function	get_work_item_by_type($work_item_type)
+	{	
+		$this->db->where('work_type',$work_item_type);
+		$this->db->select();
+		$query=$this->db->get('work_item');
+
+		if($query->num_rows>0)
+		{
+			foreach ($query->result() as $row) {
+				# code...
+				$rows[]=$row;
+			}
+			return $rows;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	//get work_item by id
 	public function get_work_item_by_id($id)
 	{	

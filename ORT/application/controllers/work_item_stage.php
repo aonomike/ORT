@@ -45,6 +45,25 @@ class Work_item_stage extends CI_Controller
 		}
 	}
 
+	public function list_work_item_stage_by_work_item_id($work_item_id)
+	{
+		if ($this->check_login()) {
+			return ;
+		}
+		else
+		{
+			$work_item_stage=$this->work_item_stage_model->get_all_work_item_stage_by_work_item_id($work_item_id);	
+			$data['work_item']= $this->work_item_model->get_work_item_by_id($work_item_id);
+			$data['work_item_stage']=$work_item_stage;
+			$data['template_header']='template_header';
+			$data['template_footer']='template_footer';
+			$data['main_content']='view_list_workitem_stage';
+			$data['title']='List Work Items';
+			$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+			$this->load->view('template',$data);
+		}
+	}
+
 	public function create_work_item_stage_form(){
 		if ($this->check_login()) {
 			return ;
@@ -54,6 +73,24 @@ class Work_item_stage extends CI_Controller
 
 			$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
 			$data['work_items']=$this->work_item_model->get_all_work_items();
+			$data['stages']=$this->stage_model->get_all_stages();
+			$data['template_header']='template_header';
+			$data['template_footer']='template_footer';
+			$data['main_content']='view_create_work_item_stage';
+			$data['title']='Create Work Items Stage Form';
+			$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+			$this->load->view('template',$data);
+		}
+	}
+
+	public function create_work_item_stage_form_by_work_item_id($work_item_id)
+	{
+		if ($this->check_login()) {
+			return ;
+		}
+		else
+		{
+			$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_id);
 			$data['stages']=$this->stage_model->get_all_stages();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';

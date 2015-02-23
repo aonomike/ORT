@@ -84,7 +84,7 @@
                                                     $attributes = array('class' =>'form-horizontal', 'id'=>'block-validate','name'=>'create_users' ,'method'=>'post' );
                                                         echo form_open('Authors/Create_missing_authors',$attributes);
                                                      ?> 
-                                                    
+                                                    <input type="hidden" id="work-items-id" value="<?php echo $work_item->work_item_id;?>" />
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-4" for="title" >Title</label>
                                                         <div class="col-lg-4">
@@ -99,30 +99,44 @@
                                                                 <?php endforeach;  }
                                                                 ?>                                                 
                                                             </select>
-                                                            <label id="title-error" class="error"></label>
                                                         </div> 
+                                                        <label id="title-error" class="error">*</label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="first-name" class="control-label col-lg-4">First Name</label>
                                                         <div class="col-lg-4">
                                                             <input type="text" placeholder="First Name" value="<?php echo set_value('first-name');?>" id="first-name" name="first-name" class="form-control"  required="required" />
-                                                            <label id="first-name-error" class="error"></label>
                                                         </div>  
+                                                         <label id="first-name-error" class="error">*</label>
                                                     </div> 
                                                     <div class="form-group">
                                                         <label for="second-name" class="control-label col-lg-4">Second Name</label>
                                                         <div class="col-lg-4">
                                                             <input type="Text" value="<?php echo set_value('second-name');?>" placeholder="Second Name" class="form-control" name="second-name" id="second-name" required="required"/>
-                                                            <label id="second-name-error" class="error"></label>
                                                         </div>
+                                                        <label id="second-name-error" class="error">*</label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="last-name" class="control-label col-lg-4">Last Name</label>
                                                         <div class="col-lg-4">
                                                             <input type="Text" value="<?php echo set_value('last-name');?>" name="last-name" id="last-name" placeholder="Last Name" class="form-control" required="required"  />
-                                                            <label id="last-name-error" class="error"></label>
-                                                        </div>                                                        
+                                                        </div>     
+                                                        <label id="last-name-error" class="error">*</label>                                                   
                                                     </div> 
+                                                    <div class="form-group">
+                                                        <label for="telephone" class="control-label col-lg-4">Telephone</label>
+                                                        <div class="col-lg-4">
+                                                            <input type="text" placeholder="Telephone" value="<?php echo set_value('telephone');?>" id="telephone" name="telephone" class="form-control"  />
+                                                        </div>  
+                                                        <label id="email-error" class="error"></label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="email" class="control-label col-lg-4">Email</label>
+                                                        <div class="col-lg-4">
+                                                            <input type="email" placeholder="Primary Email" value="<?php echo set_value('email');?>" id="email" name="email" class="form-control"  required="required" />
+                                                        </div> 
+                                                        <label id="email-error" class="error">*</label> 
+                                                    </div>
                                                    
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-4" for="organisation">Institution of Affiliation</label>
@@ -138,8 +152,8 @@
                                                                } ?> 
                                                                 
                                                             </select>
-                                                            <label id="organisation-error" class="error"></label>
-                                                        </div>                                                        
+                                                        </div>  
+                                                        <label id="organisation-error" class="error">*</label>                                                      
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-4" for="designation" >Designation</label>
@@ -155,8 +169,8 @@
                                                                 <?php endforeach;  }
                                                                 ?>                                                 
                                                             </select>
-                                                            <label id="designation-error" class="error"></label>
                                                         </div> 
+                                                        <label id="designation-error" class="error">*</label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="control-label col-lg-4" for="country" >Country</label>
@@ -172,8 +186,8 @@
                                                                 <?php endforeach;  }
                                                                 ?>                                                 
                                                             </select>
-                                                            <label id="country-error" class="error"></label>
                                                         </div> 
+                                                        <label id="country-error" class="error">*</label>
                                                     </div>
                                        
                                         <div class="form-actions no-margin-bottom" style="text-align:center;">

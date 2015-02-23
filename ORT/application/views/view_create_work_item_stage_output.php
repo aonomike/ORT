@@ -4,17 +4,18 @@
             <div class="col-lg-12">
             	<div class="box">
                     <header>
-                        <div class="icons"><i class="icon-th-large"></i></div>
-                        <h5><?php if (isset($page_heading))
-                                echo($page_heading);
-                        ?></h5>
+                        <div class="col-lg-12">
+                           <b> Ref No:</b> <?php echo $work_item->reference_number ?>   <br/>
+                           <b> Work Item Name:</b> <?php echo $work_item->description ?><br/>
+                           <b> Work Item Type:</b> <?php echo $work_item->Work_item_type ?>
+                        </div>
                         <div class="toolbar">
                             <ul class="nav">
                                 <li>
                                     <div class="btn-group">
                                         <a class="accordion-toggle btn btn-xs minimize-box" data-toggle="collapse"
-                                            href="#collapseOne">
-                                            <i class="icon-chevron-up"></i>
+                                            href="#">
+                                            <i class=""></i>
                                         </a>
                                         
                                     </div>
@@ -42,29 +43,13 @@
                                                 echo form_open_multipart('Work_item_stage_output/create_work_item_stage_output',$attributes);
                                              ?> 
                                         <div class="form-group">
-                                            <label class="control-label col-lg-4" for="work-item-type-filter">Work Item Type</label>
-                                            <div class="col-lg-4">
-                                                <select id="work-item-type-filter" name="work-item-type-filter" class="form-control" required="required">
-                                                <option ></option>
-                                                    <?php foreach ($work_item_types as $work_item_type):  ?>  
-                                                        <option value="<?php echo $work_item_type->work_type_id ?>"><?php echo $work_item_type->description ?></option> 
-                                                    <?php endforeach; ?> 
-                                                </select>
-                                            </div>
+                                            <input type="hidden" id="work-item-type-filter" name="work-item-type-filter" class="form-control" required="required" value="<?php echo $work_item->work_type ?>" />
                                         </div>
                                         <div class="form-group">
-                                        <label class="control-label col-lg-4" for="work-item">Work Item </label>
-                                        <div class="col-lg-4">
-                                            <select id="work-item" name="work-item" class="form-control stage-output-item" required="required">
-                                                    <option ></option>
-                                                    <?php foreach ($work_items as $work_item):  ?>  
-                                                        <option value="<?php echo $work_item->work_item_id ?>"><?php echo $work_item->description ?></option> 
-                                                    <?php endforeach; ?> 
-                                            </select>
-                                        </div>
+                                                <input type="hidden" id="work-item" name="work-item" class="form-control stage-output-item" required="required" value="<?php echo $work_item->work_item_id ?>" />
                                         </div>
                                         <div class="form-group">
-                                            <label for="stage" class="control-label col-lg-4">Stage</label>
+                                            <label for="stage" class="control-label col-lg-4">Received From</label>
                                             <div class="col-lg-4">
                                                 <select id="stage" name="stage" class="form-control" required="required">
                                                         <option ></option>
@@ -74,8 +59,19 @@
                                                 </select>
                                             </div>
                                         </div>
+                                          <div class="form-group">
+                                            <label for="request" class="control-label col-lg-4">Action Request on Receipt</label>
+                                            <div class="col-lg-4">
+                                                <select id="request" name="request" class="form-control" required="required">
+                                                        <option ></option>
+                                                        <?php foreach ($requests as $request):  ?>  
+                                                            <option value="<?php echo $request->id ?>"><?php echo $request->description ?></option> 
+                                                        <?php endforeach; ?> 
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
-                                            <label for="status" class="control-label col-lg-4">Status</label>
+                                            <label for="status" class="control-label col-lg-4">Status on Receipt</label>
                                             <div class="col-lg-4">
                                                 <select id="status" name="status" class="form-control" required="required">
                                                         <option ></option>
@@ -86,13 +82,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="description" class="control-label col-lg-4">Output Description</label>
-                                            <div class="col-lg-4">
-                                                <input max-length="50"id="description" type="text" name="description" class="form-control" required="required" value="<?php echo set_value('description') ?>"/>
-                                            </div>
-                                        </div>
-                                         <div class="form-group">
-                                            <label for="comment" class="control-label col-lg-4">Comments</label>
+                                            <label for="comment" class="control-label col-lg-4">Remarks</label>
                                             <div class="col-lg-4">
                                                 <textarea id="comment" name="comment" cols="50" rows="4" required="required" value="<?php echo set_value('comment') ?>"></textarea>
                                             </div>

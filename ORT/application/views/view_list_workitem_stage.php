@@ -2,12 +2,9 @@
 	<div class="inner">
         <div class="row">
             <div class="col-lg-12">
-
-
-                <h2> Work Item Stage </h2>
-
-
-
+            	<b>Ref No:</b> <?php echo $work_item->reference_number ?><br/>
+            	<b>Work Item Name:</b><?php echo $work_item->description ?><br/>
+            	<b>Work Item Type</b> <?php echo $work_item->Work_item_type ?>           		
             </div>
         </div>
 
@@ -32,9 +29,8 @@
 		                            <tr>
 		                            	<td colspan="5">
 			                            	<div class="toolbar">
-							                    <a href="<?php echo base_url();?>Work_item_stage/create_work_item_stage_form" class="btn btn-primary btn-line">New</a>							                   
-							                    <a href="#" class="btn btn-danger btn-line">Delete</a>                    
-	                   						</div>
+							                    <a href="<?php echo base_url();?>Work_item_stage/create_work_item_stage_form_by_work_item_id/<?php echo $work_item->work_item_id ?>" class="btn btn-primary btn-line">New</a>							                   
+							                </div>
 	                   					</td>
 		                            </tr>
 		                            <tr>
@@ -56,6 +52,7 @@
 		                        </tfoot>
 		                        <tbody>
 		                        	<form>
+		                        		<input type="hidden" id="work-item-id" name="work-item-id" value="<?php echo $work_item->work_item_id ?>"/>
 		                        		<?php if (is_array($work_item_stage)){ ?>
 			                        	    <?php foreach ($work_item_stage as $s): ?>
 				                           		<tr class="gradeA">
