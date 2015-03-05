@@ -1,15 +1,14 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Staff_controller extends CI_Controller
+class Document extends CI_Controller
 {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('staff_model');
-		$this->load->model('designation_model');
-		$this->load->model('station_model');
-		$this->load->model('program_model');
+		$this->load->model('document_model');
+		$this->load->model('stage_model');
+		$this->load->model('work_item_stage_output_model');
 		$this->load->model('rbac_model');		
 	}
 
@@ -33,7 +32,9 @@ class Staff_controller extends CI_Controller
 			return;
 		}
 		else
-		{			
+		{	
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();		
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
 			$data['main_content']='view_list_staff';
@@ -46,7 +47,7 @@ class Staff_controller extends CI_Controller
 		}				
 	}
 
-	public function create_document_assignment_by_document_id_form()
+	public function create_work_item_stage_output_assigment_form_pass_work_item_id($wiso_id)
 	{
 		if($this->check_login())
 		{
@@ -54,12 +55,13 @@ class Staff_controller extends CI_Controller
 		}
 		else
 		{
-			$data['station']=$this->station_model->get_stations();
-			$data['program']=$this->program_model->get_programs();
-			$data['designation']=$this->designation_model->get_designation();
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+			$data['stages']=$this->stage_model->get_all_stages();
+			$data['work_item_stage_output']=$this->work_item_stage_output_model->get_all_work_item_stage_output_details_by_work_item_stage_output_id($wiso_id);
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
-			$data['main_content']='view_create_staff_form';			
+			$data['main_content']='view_create_work_item_stage_output_assignment_form';			
 			$data['title']='Create Staff';
 			$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
 			$this->load->view('template',$data);
@@ -67,26 +69,84 @@ class Staff_controller extends CI_Controller
 
 	}
 
-	public function list_work_document_assignment_by_document_id()
+
+	public function list_work_item_stage_output_assignment_by_work_item_stage_output_id($work_item_stage_output_id)
 	{
 		if ($this->check_login()) {
 			return ;
 		}
 		else
 		{
-			$work_item_author=$this->Work_item_author_model->get_all_work_item_author_details();	
-			$data['work_item_author']=$work_item_author;
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+			$work_item_stage_output=$this->work_item_stage_output_model->get_all_work_item_stage_output_details_by_work_item_stage_output_id($work_item_stage_output_id);
+			$data['work_item_stage_output']=$work_item_stage_output;
+			$data['work_item_stage_output_assignments']=$this->work_item_stage_output_model->get_all_work_item_stage_output_assigment_details_by_work_item_stage_output_id($work_item_stage_output_id);
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
-			$data['main_content']='view_list_workitem_author';
-			$data['title']='List Work Items';
+			$data['main_content']='view_list_workitem_stage_output_assignment';
+			$data['title']='List Work Item Stage Output Assignments';
 			$data['page_heading']='List Work Item Author';
 			$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
 			$this->load->view('template',$data);
 		}
 	}
 
+	public function create_new_document_assignment(){
+		if ($this->check_login()) {
+			return ;
+		}
+		else
+		{
+			$this->form_validation->set_rules('stage_assigned_to','Assigned To','trim|required|xss_clean');
+			$this->form_validation->set_rules('date-assigned','Date Assigned','trim|required|xss_clean');
+			$this->form_validation->set_rules('date-expected-back','Date Expected Back','trim|required|xss_clean');
 
+			$work_item_stage_output_id=$this->input->post('wiso');
+			if($this->form_validation->run())
+			{
+				
+				 $data = array('work_item_stage_output_id' =>$work_item_stage_output_id , 
+				 	'assigned_to' =>$this->input->post('stage_assigned_to') ,
+				 	'date_assigned'=>$this->input->post('date-assigned'),
+				 	'date_expected_back'=>$this->input->post('date-expected-back'),
+				 	'date_created' =>date('Y-m-d H:i:s'),
+				 	'created_by' =>$this->session->userdata('user_id'),
+				 	'last_updated_by' =>$this->session->userdata('user_id'),
+				 	'date_last_updated' =>date('Y-m-d  H:i:s')
+				 	 );
+
+				   $this->document_model->create_work_item_stage_output_assignment($data);
+				    $data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+					$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+					$data['work_item_stage_output']=$this->work_item_stage_output_model->get_all_work_item_stage_output_details_by_work_item_stage_output_id($work_item_stage_output_id);
+					$data['work_item_stage_output_assignments']=$this->work_item_stage_output_model->get_all_work_item_stage_output_assigment_details_by_work_item_stage_output_id($work_item_stage_output_id);
+					$data['template_header']='template_header';
+					$data['template_footer']='template_footer';
+					$data['main_content']='view_list_workitem_stage_output_assignment';
+					$data['title']='List Work Items Stage Output Assignments';
+					$data['page_heading']='List Work Item Author';
+					$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+					$this->load->view('template',$data);
+			}
+
+			else
+			{
+				$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+				$data['stages']=$this->stage_model->get_all_stages();
+				$data['work_item_stage_output']=$this->work_item_stage_output_model->get_all_work_item_stage_output_details_by_work_item_stage_output_id($work_item_stage_output_id);
+				$data['template_header']='template_header';
+				$data['template_footer']='template_footer';
+				$data['main_content']='view_create_work_item_stage_output_assignment_form';			
+				$data['title']='Create Staff';
+				$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+				$this->load->view('template',$data);
+			}
+
+			
+		}
 		
+	}
 }
 ?>	

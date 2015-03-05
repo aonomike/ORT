@@ -24,7 +24,7 @@
                      <?php echo validation_errors()?>          
                         <?php
                             $attributes = array('class' =>'form-horizontal', 'id'=>'block-validate','name'=>'create-work-items' ,'method'=>'post' );
-                            echo form_open('Work_Item/create_work_items',$attributes);
+                            echo form_open('Work_Item/create_work_items_two',$attributes);
                          ?> 
                         <div class="form-group">
                             <label for="title" class="control-label col-lg-4">Scientific Item Title</label>
@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="work-item-type">Scientific Item Type</label>
                             <div class="col-lg-4">
-                                <select id="work-item-type" name="work-item-type" class="form-control" required="required" value="<?php echo set_value('work-item-type') ?>">
+                                <select id="work-item-type" name="work-item-type" class="form-control" required="required">
                                    <option ></option>
                                     <?php foreach ($work_item_type as $s):  ?>  
                                         <option value="<?php echo $s->work_type_id ?>"><?php echo $s->description ?></option> 
@@ -60,7 +60,7 @@
                             <label for="details" class="control-label col-lg-4">Description</label>
 
                             <div class="col-lg-4">
-                                <textarea name="details" id="details" cols="52" value="<?php echo set_value('details') ?>"></textarea> 
+                                <textarea name="details" id="details" cols="52" value="<?php echo set_value('details') ?>" required="required"></textarea> 
                             </div>
                         </div>
                         <div class="form-group">

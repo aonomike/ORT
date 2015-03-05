@@ -6,17 +6,25 @@ class Work_item_author extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('work_item_model');
-		$this->load->model('Work_item_type_model');	
+		$this->load->model('work_item_model');	
 		$this->load->model('staff_model');
 		$this->load->model('Author_model');
 		$this->load->model('Author_type_model');
-		$this->load->model('Work_item_author_model');	
+		$this->load->model('work_item_author_model');	
 		$this->load->model('rbac_model');
 		$this->load->model('designation_model');
 		$this->load->model('country_model');
 		$this->load->model('organisation_model');
 		$this->load->model('employee_title_model');
+		$this->load->model('work_item_stage_output_model');
+		$this->load->model('work_item_type_model');
+		$this->load->model('stage_model');
+		$this->load->model('work_item_model');
+		$this->load->model('work_item_stage_status_model');
+		$this->load->model('status_model');	
+		$this->load->model('work_item_stage_model');	
+		$this->load->model('document_model');
+		$this->load->model('action_request_model');	
 
 	}
 
@@ -40,7 +48,9 @@ class Work_item_author extends CI_Controller
 		}
 		else
 		{
-			$work_item_author=$this->Work_item_author_model->get_all_work_item_author_details();	
+			$work_item_author=$this->work_item_author_model->get_all_work_item_author_details();	
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['work_item_author']=$work_item_author;
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
@@ -60,7 +70,9 @@ class Work_item_author extends CI_Controller
 		else
 		{
 
-			$work_item_author=$this->Work_item_author_model->get_all_work_item_author_details_by_work_item_id($work_item_id);	
+			$work_item_author=$this->work_item_author_model->get_all_work_item_author_details_by_work_item_id($work_item_id);	
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_id);
 			$data['work_item_author']=$work_item_author;
 			$data['work_item_id']=$work_item_id;
@@ -81,11 +93,13 @@ class Work_item_author extends CI_Controller
 		else
 		{
 			$data['titles']=$this->employee_title_model->get_titles();
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['organisation']=$this->organisation_model->get_organisations();
 			$data['designations']=$this->designation_model->get_designations();
 			$data['countries']=$this->country_model->get_countries();
 			$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_id);
-			$data['work_item_types']=$this->Work_item_type_model->get_all_work_item_types();
+			$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
 			$data['authors']=$this->staff_model->get_all_staffs();
 			$data['author_types']=$this->Author_type_model->get_all_authors_types();
 			$data['work_items']=$this->work_item_model->get_all_work_items();
@@ -106,6 +120,8 @@ class Work_item_author extends CI_Controller
 		else
 		{
 			$data['work_item'] = $this->work_item_model->get_work_item_by_id($work_item_id);
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['authors']=$this->Author_model->get_author_details();
 			$data['author_types']=$this->Author_type_model->get_all_authors_types();
 			$data['work_items']=$this->work_item_model->get_all_work_items();
@@ -136,8 +152,8 @@ class Work_item_author extends CI_Controller
 				 	'last_updated_by' =>$this->session->userdata('user_id'),
 				 	'date_last_updated' =>date('Y-m-d  H:i:s')
 				 	 );
-			$new_work_item_author_id = $this->Work_item_author_model->create_work_item_author_using_jpost_and_return_new_id($data);
-			$work_item_authors = $this->Work_item_author_model->get_all_work_item_author_details_by_id($new_work_item_id);
+			$new_work_item_author_id = $this->work_item_author_model->create_work_item_author_using_jpost_and_return_new_id($data);
+			$work_item_authors = $this->work_item_author_model->get_all_work_item_author_details_by_id($new_work_item_id);
 			echo json_encode($work_item_authors);
 		}
 	}
@@ -162,10 +178,12 @@ class Work_item_author extends CI_Controller
 				 	'last_updated_by' =>$this->session->userdata('user_id'),
 				 	'date_last_updated' =>date('Y-m-d  H:i:s')
 				 	 );
-				   $this->Work_item_author_model->create_work_item_author($data);
+				   $this->work_item_author_model->create_work_item_author($data);
 				   
-				  	$work_item_author=$this->Work_item_author_model->get_all_work_item_author_details_by_work_item_id($work_item_id);	
+				  	$work_item_author=$this->work_item_author_model->get_all_work_item_author_details_by_work_item_id($work_item_id);	
 					$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_id);
+					$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+					$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 					$data['work_item_author']=$work_item_author;
 					$data['template_header']='template_header';
 					$data['template_footer']='template_footer';
@@ -178,7 +196,9 @@ class Work_item_author extends CI_Controller
 
 			else
 			{
-				$data['work_item_types']=$this->Work_item_type_model->get_all_work_item_types();
+				$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+				$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
 				$data['authors']=$this->Author_model->get_author_details();
 				$data['author_type']=$this->Author_type_model->get_all_authors_types();
 				$data['work_items']=$this->work_item_model->get_work_item_list();
@@ -193,6 +213,99 @@ class Work_item_author extends CI_Controller
 			}
 
 			
+		}
+	}
+
+	public function create_work_item_author_two(){
+		if ($this->check_login()) {
+			return ;
+		}
+		else
+		{
+			$this->form_validation->set_rules('author','Author','trim|required|xss_clean');
+			$this->form_validation->set_rules('author-type','Author Type','trim|required|xss_clean');
+			$work_item_id=$this->input->post('work-item-id');
+			if($this->form_validation->run())
+			{
+				
+				 $data = array(
+							 	'author_id' =>$this->input->post('author') , 
+							 	'work_item_id' =>$this->input->post('work-item-id') ,
+							 	'author_type'=>$this->input->post('author-type'),
+							 	'date_created' =>date('Y-m-d H:i:s'),
+							 	'created_by' =>$this->session->userdata('user_id'),
+							 	'last_updated_by' =>$this->session->userdata('user_id'),
+							 	'date_last_updated' =>date('Y-m-d  H:i:s')
+				 			 );
+				    $work_item_id=$this->input->post('work-item-id');
+				    
+				    $this->work_item_author_model->create_work_item_author($data);
+				  	$data['requests']=$this->action_request_model->get_action_request();
+					$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_id);
+					$data['error']='';
+					$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+					$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+					$data['work_items']=$this->work_item_model->get_all_work_items();
+					$data['stages']=$this->stage_model->get_all_stages();
+					$data['status']=$this->status_model->get_all_status();
+					$data['template_header']='template_header';
+					$data['template_footer']='template_footer';
+					$data['main_content']='view_create_work_item_stage_output';
+					$data['title']='Create Work Items Stage Output Form';
+					$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+					$this->load->view('template',$data);
+			}
+
+			else
+			{
+				$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+				$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
+				$data['authors']=$this->Author_model->get_author_details();
+				$data['author_type']=$this->Author_type_model->get_all_authors_types();
+				$data['work_items']=$this->work_item_model->get_work_item_list();
+				$data['template_header']='template_header';
+				$data['template_footer']='template_footer';
+				$data['main_content']='view_create_work_item_author_form';
+				$data['title']='Create Work Items Form';
+				$data['page_heading']='Create Work Item Author';
+				$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+				$data['author_types']=$this->Author_type_model->get_all_authors_types();
+				$this->load->view('template',$data);
+			}
+
+			
+		}
+	}
+
+
+
+	public function view_work_item_author($work_item_author_id)
+	{
+
+	}
+
+	public function retire_work_item_author($work_item_id,$work_item_author_id)
+	{
+		if ($this->check_login()) {
+			return ;
+		}
+		else
+		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+			$this->work_item_author_model->retire_work_item_author($work_item_author_id);
+			$work_item_author=$this->work_item_author_model->get_all_work_item_author_details_by_work_item_id($work_item_id);	
+			$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_id);
+			$data['work_item_author']=$work_item_author;
+			$data['work_item_id']=$work_item_id;
+			$data['template_header']='template_header';
+			$data['template_footer']='template_footer';
+			$data['main_content']='view_list_workitem_author';
+			$data['title']='List Work Item Authors';
+			$data['page_heading']='List Work Item Author';
+			$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+			$this->load->view('template',$data);
 		}
 	}
 

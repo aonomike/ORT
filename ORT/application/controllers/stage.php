@@ -32,6 +32,8 @@ class Stage extends CI_Controller
 		{
 			$stage=$this->Stage_model->get_all_stages();	
 			$data['stages']=$stage;
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
 			$data['main_content']='view_list_stages';
@@ -47,6 +49,8 @@ class Stage extends CI_Controller
 		}
 		else
 		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
 			$data['main_content']='view_create_stages_form';
@@ -75,6 +79,8 @@ class Stage extends CI_Controller
 
 			else
 			{
+				$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 				$data['work_item_types']=$this->Work_item_type_model->get_all_work_item_types();
 				$data['authors']=$this->Author_model->get_author_details();
 				$data['author_type']=$this->Author_type_model->get_all_authors_types();

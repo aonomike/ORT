@@ -43,7 +43,7 @@
 		                            <tr>
 		                            	<td colspan="5">
 			                            	<div class="toolbar">
-							                    <a href="<?php echo base_url();?>Work_item/create_work_items_form" class="btn btn-primary btn-line">New</a>
+							                    <a href="<?php echo base_url();?>Work_item/create_work_items_form_two" class="btn btn-primary btn-line">New</a>
 	                   						</div>
 	                   					</td>
 		                            </tr>

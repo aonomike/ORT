@@ -2,9 +2,9 @@
 	<div class="inner">
         <div class="row">
             <div class="col-lg-12">
-               <b> Ref No:</b> <?php echo $work_item->reference_number ?>	<br/>
-               <b> Work Item Name:</b> <?php echo $work_item->description ?><br/>
-               <b> Work Item Type:</b> <?php echo $work_item->Work_item_type ?>
+               <b> Ref No:</b> <?php echo $work_item_stage_output->reference_number ?>	<br/>
+               <b> Work Item Name:</b> <?php echo $work_item_stage_output->work_item ?><br/>
+               <b> Work Item Type:</b> <?php echo $work_item_stage_output->work_item_type ?>
             </div>
         </div>
 
@@ -42,14 +42,14 @@
 		                            <tr>
 		                            	<td colspan="5">
 			                            	<div class="toolbar">
-							                    <a href="<?php echo base_url();?>Work_item_stage_output/create_work_item_stage_output_form_pass_work_item_id/<?php echo $work_item->work_item_id ?>" class="btn btn-primary btn-line">New</a>
+							                    <a href="<?php echo base_url();?>Document/create_work_item_stage_output_assigment_form_pass_work_item_id/<?php echo $work_item_stage_output->work_item_stage_output_id ?>" class="btn btn-primary btn-line">New</a>
 	                   						</div>
 	                   					</td>
 		                            </tr>
 		                            <tr>
-		                                <th>Received From</th>
-		                                <th>File Name</th>	
-		                                <th>Output Desription</th>	                                
+		                                <th>Assigned To</th>
+		                                <th>Date Assigned</th>	
+		                                <th>Date Expected Back</th>	                                
 		                                <th>Action</th>
 		                            </tr>
 		                        </thead>
@@ -64,12 +64,12 @@
 		                        <tbody>
 		                        	<form>
 
-		                        		<?php if (is_array($work_item_stage_outputs)){ ?>
-			                        	    <?php foreach ($work_item_stage_outputs as $s): ?>
+		                        		<?php if (is_array($work_item_stage_output_assignments)){ ?>
+			                        	    <?php foreach ($work_item_stage_output_assignments as $s): ?>
 				                           		<tr class="gradeA">
-				                           			<td><?php echo $s->stage; ?></td>
-				                           			<td><a href="<?php echo base_url();?>Work_item_stage_output/download_output/<?php echo $s->upload_document_id; ?>" title="click to download"><i class="icon-download-alt"><?php echo $s->file_name; ?></i></a></td>				                           			
-				                           			<td><?php echo $s->user_remarks; ?></td>
+				                           			<td><?php echo $s->doc_assigned_to; ?></td>
+				                           			<td><?php echo substr($s->date_assigned, 0,10); ?></td>				                           			
+				                           			<td><?php echo substr($s->date_expected_back, 0,10) ?></td>
 				                           		    <td>				                           				
 												        <div class="btn-group">
 															<button class="btn btn-primary"><i class="icon-gear"></i> action</button>

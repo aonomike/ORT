@@ -2,22 +2,9 @@
 	<div class="inner">
         <div class="row">
             <div class="col-lg-12">
-
-
-                <h2> <?php //if (isset($))
-                            //{
-                             //   echo($page_heading);
-                           // } ?>
-                           
-
-                </h2>
                <b> Ref No:</b> <?php echo $work_item->reference_number ?>	<br/>
                <b> Work Item Name:</b> <?php echo $work_item->description ?><br/>
-                <b> Work Item Type:</b> <?php echo $work_item->Work_item_type ?>
-
-
-
-
+               <b> Work Item Type:</b> <?php echo $work_item->Work_item_type ?>
             </div>
         </div>
 
@@ -73,13 +60,13 @@
 																	<button data-toggle="dropdown" class="btn dropdown-toggle"><span class="caret"></span></button>
 																		<ul class="dropdown-menu">
 																			<li>
-											                    				<a href="<?php echo base_url();?>Work_item_author/create_work_items_author_form/<?php echo $a->id; ?>"><i class="icon-eye-open"></i> View Details</a>
+											                    				<a href="<?php echo base_url();?>Authors/view_author_details/<?php echo $a->author_id; ?>"><i class="icon-eye-open"></i> View Details</a>
 									                            			</li>
 									                            			<li>
-											                            		<a href="<?php echo base_url();?>Work_item/edit_work_items_form/<?php echo $a->id; ?>"><i class="icon-edit"></i> Add Contact </a>
+											                            		<a href="<?php echo base_url();?>Authors/add_author_contact_form/<?php echo $a->author_id; ?>"><i class="icon-edit"></i> Add Contact </a>
 											                           		</li>												                           												                            
 											                           		<li>
-											                            		<a href="<?php echo base_url();?>Work_item/edit_work_items_form/<?php echo $a->id; ?>"><i class="icon-remove-circle"></i> Retire Author </a>
+											                            		<a href="<?php echo base_url();?>Work_item_author/retire_work_item_author/<?php echo $work_item_id ?>/<?php echo $a->id; ?>"><i class="icon-remove-circle"></i> Retire Author </a>
 											                            	</li>
 																  </ul>
 																</div>

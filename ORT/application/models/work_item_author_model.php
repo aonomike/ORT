@@ -28,7 +28,7 @@ class Work_item_author_model extends CI_Model
 
 	public function get_all_work_item_author_details_by_work_item_id($work_item_id)
 	{
-		$query='SELECT wia.id, wia.author_id, wia.work_item_id,  wia.author_type,  s.first_name, s.second_name, s.last_name, wi.description AS work_item
+		$query='SELECT wia.id, wia.author_id, wia.work_item_id,  wia.author_type,wia.retire,  s.first_name, s.second_name, s.last_name, wi.description AS work_item
 				, at.descriptions as author_type_description
 				FROM work_item_author wia
 				JOIN staff s ON s.staff_id = wia.author_id
@@ -36,6 +36,8 @@ class Work_item_author_model extends CI_Model
 				JOIN author_type  at on at.author_type_id=wia.author_type
 				WHERE wia.work_item_id=';
 		$query.=$work_item_id;
+		$query.=' AND wia.retire = ';
+		$query.=0;
 		$query_result=$this->db->query($query);
 
 		if ($query_result->num_rows()>0)
@@ -115,5 +117,12 @@ class Work_item_author_model extends CI_Model
 		$this->db->insert('work_item_author', $data);
 		$insert_id= $this->db->insert_id();
 		return $insert_id;
+	}
+
+	public function retire_work_item_author($work_item_author_id)
+	{
+		$data = array('retire' =>1 );
+		$this->db->where('id', $work_item_author_id);
+		$this->db->update('work_item_author',$data);
 	}
 }

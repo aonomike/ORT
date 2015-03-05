@@ -35,6 +35,8 @@ class Work_item_stage extends CI_Controller
 		else
 		{
 			$work_item_stage=$this->work_item_stage_model->get_all_work_item_stage_details();	
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['work_item_stage']=$work_item_stage;
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
@@ -53,6 +55,8 @@ class Work_item_stage extends CI_Controller
 		else
 		{
 			$work_item_stage=$this->work_item_stage_model->get_all_work_item_stage_by_work_item_id($work_item_id);	
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['work_item']= $this->work_item_model->get_work_item_by_id($work_item_id);
 			$data['work_item_stage']=$work_item_stage;
 			$data['template_header']='template_header';
@@ -70,7 +74,8 @@ class Work_item_stage extends CI_Controller
 		}
 		else
 		{
-
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
 			$data['work_items']=$this->work_item_model->get_all_work_items();
 			$data['stages']=$this->stage_model->get_all_stages();
@@ -90,6 +95,8 @@ class Work_item_stage extends CI_Controller
 		}
 		else
 		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_id);
 			$data['stages']=$this->stage_model->get_all_stages();
 			$data['template_header']='template_header';
@@ -145,7 +152,8 @@ class Work_item_stage extends CI_Controller
 			}
 			else
 			{
-				
+				$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 				$data['work_item_stage']=$this->work_item_stage_model->get_all_work_item_stage_details_by_id($id);
 				$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
 				$data['work_items']=$this->work_item_model->get_all_work_items();
@@ -167,6 +175,8 @@ class Work_item_stage extends CI_Controller
 		}
 		else
 		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['work_item_stage']=$this->Work_item_stage_model->void_work_type_stage_by_id($id);			
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';

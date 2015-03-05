@@ -19,6 +19,11 @@ class Document_model extends CI_Model
 		$insert_id= $this->db->insert_id();
 		return $insert_id;
 	}
+	//create new document assignment 
+	public function create_work_item_stage_output_assignment($data)
+	{
+		$this->db->insert('work_item_stage_output_assignment',$data);
+	}
 	//update document by id
 	public function	update_document_by_id($document_id,$data)
 	{
@@ -91,6 +96,8 @@ class Document_model extends CI_Model
 			return false;
 		}
 	}
+
+
 
 
 }

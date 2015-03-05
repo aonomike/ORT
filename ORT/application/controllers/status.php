@@ -31,6 +31,8 @@ class Status extends CI_Controller
 		else
 		{
 			$status=$this->status_model->get_all_status();	
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['status']=$status;
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
@@ -47,6 +49,8 @@ class Status extends CI_Controller
 		}
 		else
 		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
 			$data['main_content']='view_create_status_form';

@@ -85,5 +85,12 @@ class Staff_contact_model extends CI_Model
 		}
 	}
 
+	//function to insert new contacts
 
-}-
+	public function insert_batch_contacts($data)
+	{
+		$this->db->insert_batch('staff_contact',$data);
+	}
+
+
+}

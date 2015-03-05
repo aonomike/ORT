@@ -154,6 +154,39 @@ class Work_item_model extends CI_Model
 
 	}
 
+	
+	public function get_work_item_list_by_type($work_type_id)
+	{
+		$query='SELECT w.work_item_id, w.description,w.reference_number, w.work_type, w.submission_deadline, w.creation_date, w.date_last_updated, 
+				w.created_by, w.date_last_updated, w.last_updated_by,WIT.description AS Work_item_type, 
+				s.first_name, s.second_name, s.last_name, at.descriptions AS author_type
+				FROM work_item w
+				JOIN work_type wit ON wit.work_type_id = w.work_type
+				LEFT JOIN work_item_author wia ON wia.work_item_id = w.work_item_id
+				LEFT JOIN author a ON a.author_id = wia.author_id
+				LEFT JOIN author_type at ON wia.author_type = at.author_type_id
+				LEFT JOIN staff s ON s.staff_id = a.staff_id
+				WHERE w.work_type=';
+		$query.=$work_type_id;
+
+		$query_result= $this->db->query($query);
+
+		if($query_result->num_rows()>0)
+		{
+			foreach ($query_result->result() as $row) {
+				# code...
+				$rows[]=$row;
+				//return $row;
+			}
+			return $rows;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+
 	public function get_work_item_list_by_id($id)
 	{
 		$query='SELECT w.work_item_id, w.description, w.work_type, w.submission_deadline, w.creation_date, w.date_last_updated, 
@@ -268,6 +301,53 @@ class Work_item_model extends CI_Model
 				$rows[]=$row;
 			}
 			return $rows;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+
+	public function get_work_item_count_by_type()
+	{
+		$query='	SELECT wt.work_type_id, wt.description, (
+				SELECT count( * )
+				FROM work_item w
+				JOIN work_type wit ON w.work_type = wit.work_type_id
+				WHERE w.work_type = wt.work_type_id
+				) AS work_item_count
+				FROM work_type wt
+				JOIN work_item wi ON wi.work_type = wt.work_type_id
+				GROUP BY wt.work_type_id';
+		$query_result= $this->db->query($query);
+		
+		if($query_result->num_rows()>0)
+		{
+			foreach ($query_result->result() as $row) {
+				# code...
+				$rows[]=$row;
+				//return $row;
+			}
+			return $rows;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public function get_total_work_item_count()
+	{
+		$query='SELECT count( wi.work_item_id ) AS count 	
+				FROM work_item wi';
+
+
+		$query_result= $this->db->query($query);
+		
+		if($query_result->num_rows()==1)
+		{
+			return $query_result->row();
 		}
 		else
 		{

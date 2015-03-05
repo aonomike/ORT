@@ -32,7 +32,9 @@ class Author_type extends CI_Controller
 			return;			
 		}
 		else
-		{			
+		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();			
 			$data['author_type']= $this->author_type_model->get_all_authors_types();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
@@ -51,6 +53,8 @@ class Author_type extends CI_Controller
 		}
 		else
 		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
 			$data['main_content']='view_create_author_type_form';
@@ -75,6 +79,8 @@ class Author_type extends CI_Controller
 										'details'=>$this->input->post('details') );
 				$this->author_type_model->create_author_type($author_type);
 				echo "string";
+				$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 				$data['author_type']= $this->author_type_model->get_all_authors_types();
 				$data['template_header']='template_header';
 				$data['template_footer']='template_footer';
@@ -85,6 +91,8 @@ class Author_type extends CI_Controller
 			}
 			else
 			{
+				$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 				$data['author_type']= $this->author_type_model->get_author_types();
 				$data['template_header']='template_header';
 				$data['template_footer']='template_footer';
@@ -95,6 +103,9 @@ class Author_type extends CI_Controller
 			}
 		}
 	}
+
+	
+		
 
 
 }

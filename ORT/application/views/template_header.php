@@ -368,12 +368,22 @@
                         <span class="pull-right">
                           <i class="icon-angle-left"></i>
                         </span>
-                       &nbsp; <span class="label label-default">5</span>&nbsp;
+                       &nbsp; <span class="label label-default"><?php echo $total_work_items->count ?> </span>&nbsp;
                     </a>
                     <ul class="collapse" id="work-items">
                         <?php if(in_array("list work items", $right_array, true)) 
                         {?>
-                            <li class=""><a href="<?php echo base_url();?>Work_Item/list_work_items"><i class="icon-angle-right"></i> Manage Work Items </a></li>
+                           <?php if (is_array($work_item_counts))
+                                    {
+                                        foreach ($work_item_counts as $count) {
+                                            # code...
+                                            echo '<li class=""><a href="'.base_url().'Work_Item/list_work_items_by_type/'.$count->work_type_id.'"><i class="icon-angle-right"></i>'.$count->description.' &nbsp; <span class="label label-primary">     '.$count->work_item_count.' </span>&nbsp; </a></li>';
+                                        }
+                                        
+                                    }
+                            ?>
+                            <!-- <li class=""><a href="<?php echo base_url();?>Work_Item/list_work_items"><i class="icon-angle-right"></i> Manage Work Items </a></li> -->
+                        
                         <?php } ?>
                         <?php if(in_array("list work item types", $right_array, true)) 
                         {?>
@@ -415,7 +425,7 @@
                         <?php } ?>
                         <?php if(in_array("list work item author", $right_array, true)) 
                         {?>
-                            <li class=""><a href="<?php echo base_url();?>Work_item_author/list_work_item_author"><i class="icon-angle-right"></i> Work Item Author </a></li>
+                            <!-- <li class=""><a href="<?php echo base_url();?>Work_item_author/list_work_item_author"><i class="icon-angle-right"></i> Work Item Author </a></li> -->
                         <?php } ?>
                     </ul>
                 </li>
@@ -440,10 +450,7 @@
                             {?>
                                 <li class=""><a href="<?php echo base_url();?>Work_item_status/list_work_item_status"><i class="icon-angle-right"></i> Work Item Status </a></li>
                         <?php } ?>
-                      <!--  <li class=""><a href="<?php echo base_url();?>Work_Item/list_work_items"><i class="icon-angle-right"></i> Reviews </a></li>
-                        <li class=""><a href="<?php echo base_url();?>Work_item_type/list_work_item_type"><i class="icon-angle-right"></i> Review Types </a></li>
-                        <li class=""><a href="#"><i class="icon-angle-right"></i> Submissions </a></li>-->
-                        <?php if(in_array("list work item stage", $right_array, true)) 
+                       <?php if(in_array("list work item stage", $right_array, true)) 
                             {?>
                                 <li class=""><a href="<?php echo base_url();?>Work_item_stage/list_work_item_stage"><i class="icon-angle-right"></i> Work Item Stage </a></li>  
                         <?php } ?>
@@ -473,7 +480,7 @@
               ?>
                 <li class="panel ">
                     <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle" data-target="#output">
-                        <i class="icon-tasks"> </i> Output     
+                        <i class="glyphicon glyphicon-stats"> </i> Reports     
        
                         <span class="pull-right">
                           <i class="icon-angle-left"></i>
@@ -481,7 +488,7 @@
                        &nbsp; <span class="label label-default">5</span>&nbsp;
                     </a>
                     <ul class="collapse" id="output">                       
-                        <li class=""><a href="<?php echo base_url();?>Work_Item/list_work_items"><i class="icon-angle-right"></i> Manage Outputs </a></li>                                             
+                        <li class=""><a href="<?php echo base_url();?>Report/distribution_pie_chart"><i class="icon-angle-right"></i> Chart Representation </a></li>                                             
                     </ul>
 
                 </li>
@@ -692,6 +699,7 @@
                 </li>
                 <?php }                 
               ?>
+
             </ul>
                <?php } } 
                ?>

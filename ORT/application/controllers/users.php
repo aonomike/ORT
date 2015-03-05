@@ -79,6 +79,8 @@ class Users extends CI_Controller
 				//$this->session->sess_destroy();
 				if(!$this->check_login())
 				{
+					$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+					$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 					$data['work_item']=$this->work_item_model->search_work_item();
 					$data['template_header']='template_header';
 					$data['template_footer']='template_footer';
@@ -113,6 +115,8 @@ class Users extends CI_Controller
 		}
 		else
 		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['users']= $this->users_model->get_users();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
@@ -132,7 +136,8 @@ class Users extends CI_Controller
 		}
 		else
 		{
-			
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();			
 			$data['staff']=$this->staff_model->get_all_staffs();
 			$data['user_type']= $this->user_type_model->get_user_types();
 			$data['template_header']='template_header';

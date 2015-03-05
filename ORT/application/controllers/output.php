@@ -37,6 +37,8 @@ class outputs extends CI_Controller
 		else
 		{
 			$output= $this->output_model->get_output_all_details();
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['output']=$output;	
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
@@ -56,6 +58,8 @@ class outputs extends CI_Controller
 		{
 			$staff=$this->output_model->get_staff_for_output_creation();		
 			$data['staff']=$staff;	
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
 			$data['main_content']='view_create_output_form';
@@ -81,6 +85,8 @@ class outputs extends CI_Controller
 				 	'date_last_updated' =>date('Y-m-d H:i:s') );
 					$this->output_model->create_output($data);
 					$data['output']=$this->output_model->get_output_details();
+					$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+					$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 					$data['template_header']='template_header';
 					$data['template_footer']='template_footer';
 					$data['main_content']='view_list_outputs';
@@ -88,7 +94,9 @@ class outputs extends CI_Controller
 					$this->load->view('template',$data);
 			}
 			else
-			{	
+			{
+				$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();	
 				$data['template_header']='template_header';
 				$data['template_footer']='template_footer';
 				$data['main_content']='view_create_output_form';

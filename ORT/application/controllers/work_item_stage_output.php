@@ -38,7 +38,9 @@ class Work_item_stage_output extends CI_Controller
 			return ;
 		}
 		else
-		{				
+		{	
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();			
 			$data['work_item_stage_outputs']=$this->work_item_stage_output_model->get_all_work_item_stage_output_details();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
@@ -56,6 +58,8 @@ class Work_item_stage_output extends CI_Controller
 		}
 		else
 		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['error']='';
 			$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
 			$data['work_items']=$this->work_item_model->get_all_work_items();
@@ -77,6 +81,8 @@ class Work_item_stage_output extends CI_Controller
 		}
 		else
 		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['requests']=$this->action_request_model->get_action_request();
 			$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_id);
 			$data['error']='';
@@ -99,6 +105,8 @@ class Work_item_stage_output extends CI_Controller
 		}
 		else
 		{	
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['work_item']	= $this->work_item_model->get_work_item_by_id($work_item_id);		
 			$data['work_item_stage_outputs']=$this->work_item_stage_output_model->get_all_work_item_stage_output_details_by_work_item_id($work_item_id);
 			$data['template_header']='template_header';
@@ -116,7 +124,8 @@ class Work_item_stage_output extends CI_Controller
 			return ;
 		}
 		else
-		{			
+		{		
+			$item= $this->input->post('work-item');	
 			$this->form_validation->set_rules('stage','Stage ','trim|required|xss_clean');
 			$this->form_validation->set_rules('status','Stage ','trim|required|xss_clean');
 			$this->form_validation->set_rules('work-item-type-filter','Work Item Type ','trim|required|xss_clean');
@@ -125,6 +134,7 @@ class Work_item_stage_output extends CI_Controller
 
 			if($this->form_validation->run())
 			{
+
 				$work_item_type= $this->input->post('work-item-type-filter');
 				$upload_description= $this->input->post('description');
 				$work_item_posted= $this->input->post('work-item');				
@@ -155,7 +165,7 @@ class Work_item_stage_output extends CI_Controller
 				$work_item_type_text = $work_item_type_value->description;
 				
 				$work_item=$this->work_item_model->get_work_item_by_id($this->input->post('work-item'));
-				$work_item_text=$work_item->description;
+				$work_item_text=$work_item->reference_number;
 				//print_r($work_item_text);	
 				if (!is_dir('uploads/'.$work_item_type_text))
 				{
@@ -178,13 +188,18 @@ class Work_item_stage_output extends CI_Controller
 					// var_dump(is_dir('uploads/')).'</br>';
 					// var_dump($_SERVER['SCRIPT_FILENAME']);
 					 $config['allowed_types'] = 'gif|jpg|png|pdf|doc';
-					// $config['max_size']	= '10000';
+					 $config['max_size']	= '3000000000000';
 					// $config['max_width']  = '1024';
 					 //$config['max_height']  = '768';
 					 $this->load->library('upload', $config);
 					 $this->upload->initialize($config);
 					 if ( !$this->upload->do_upload())
 						{
+							$work_item_id=$this->input->post('work-item');
+							$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+							$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+							$data['requests']=$this->action_request_model->get_action_request();
+							$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_id);
 							$data['error']=$this->upload->display_errors();
 							$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
 							$data['work_items']=$this->work_item_model->get_all_work_items();
@@ -223,7 +238,7 @@ class Work_item_stage_output extends CI_Controller
 							 						'orig_name' =>$orig_name ,
 							 						'client_name' =>$client_name ,	
 							 						'description' =>$upload_description ,						
-							 						'upload_path' =>$upload_path.''.$client_name, 
+							 						'upload_path' =>$upload_path.''.$file_name, 
 							 						'created_by' =>$this->session->userdata('user_id') ,
 							 						'last_update_by' =>$this->session->userdata('user_id') ,
 							 						'date_updated' =>date('Y-m-d H:i:s')
@@ -244,6 +259,8 @@ class Work_item_stage_output extends CI_Controller
 							  						,'voided'=>0);
 
 							$this->work_item_stage_output_model->create_work_item_stage_output($work_item_stage_output_data);
+							$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+							$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 							$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_posted); 	
 							$data['success']='Document has been successfuly uploaded';
 							$data['work_item_stage_outputs']=$this->work_item_stage_output_model->get_all_work_item_stage_output_details_by_work_item_id($work_item_posted);
@@ -260,6 +277,10 @@ class Work_item_stage_output extends CI_Controller
 				else
 				{
 					$work_item_id=$this->input->post('work-item');
+					$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+					$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+					$data['requests']=$this->action_request_model->get_action_request();
+					$data['work_item']=$this->work_item_model->get_work_item_by_id($work_item_id);
 					$data['error']='The directory for the work item type '.$work_item_type.' does not exist. Please consult your Administrator';
 					$data['work_item']	= $this->work_item_model->get_work_item_by_id($work_item_id);
 					$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
@@ -276,20 +297,24 @@ class Work_item_stage_output extends CI_Controller
 			}
 			else
 			{
-
-				$work_item_id=$this->input->post('work-item');
-				$data['work_item']	= $this->work_item_model->get_work_item_by_id($work_item_id);
-				$data['error']='';
-				$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
-				$data['work_items']=$this->work_item_model->get_all_work_items();
-				$data['stages']=$this->stage_model->get_all_stages();
-				$data['status']=$this->status_model->get_all_status();
-				$data['template_header']='template_header';
-				$data['template_footer']='template_footer';
-				$data['main_content']='view_create_work_item_stage_output';
-				$data['title']='Create Work Items Stage Output Form';
-				$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
-				$this->load->view('template',$data);
+				echo($test);
+				// echo "string";
+				//$work_item_id=$this->input->post('work-item');
+				// $data['requests']=$this->action_request_model->get_action_request();
+				$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+				// $data['work_item']=$this->work_item_model->get_work_item_by_id($item);
+				// $data['error']='';
+				// $data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
+				// $data['work_items']=$this->work_item_model->get_all_work_items();
+				// $data['stages']=$this->stage_model->get_all_stages();
+				// $data['status']=$this->status_model->get_all_status();
+				// $data['template_header']='template_header';
+				// $data['template_footer']='template_footer';
+				// $data['main_content']='view_create_work_item_stage_output';
+				// $data['title']='Create Work Items Stage Output Form';
+				// $data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+				// $this->load->view('template',$data);
 			}
 		}
 	}
@@ -315,6 +340,8 @@ class Work_item_stage_output extends CI_Controller
 			else
 			{
 				$data['error_message']=true;
+				$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 				$data['success']="The file path provided (".$upload_path.") does not exist. Please consult your Administrator";
 				$data['work_item_stage_outputs']=$this->work_item_stage_output_model->get_all_work_item_stage_output_details();
 				$data['template_header']='template_header';
@@ -342,7 +369,8 @@ class Work_item_stage_output extends CI_Controller
 			}
 			else
 			{
-				
+				$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();				
 				$data['work_item_stage']=$this->work_item_stage_model->get_all_work_item_stage_details_by_id($id);
 				$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
 				$data['work_items']=$this->work_item_model->get_all_work_items();
@@ -364,7 +392,9 @@ class Work_item_stage_output extends CI_Controller
 		}
 		else
 		{
-			 	$this->work_item_stage_output_model->void_work_item_stage_output_by_id($id);			
+			 	$this->work_item_stage_output_model->void_work_item_stage_output_by_id($id);
+			 	$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();			
 				$data['success']="Output successfuly voided";
 				$data['work_item_stage_outputs']=$this->work_item_stage_output_model->get_all_work_item_stage_output_details();
 				$data['template_header']='template_header';
@@ -390,6 +420,8 @@ class Work_item_stage_output extends CI_Controller
 		}
 		else
 		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['error']='';
 			$data['work_item_types']=$this->work_item_type_model->get_all_work_item_types();
 			$data['work_items']=$this->work_item_model->get_all_work_items();

@@ -2,57 +2,10 @@ $(document).ready(function () {
 	
 //Variable Declarations
 	var new_work_item_id;
-	var work_item_type;
+	var work_item_type; 
+	
 
-	var enable_relation=$('#enable_relation').is(':checked') ;
-	function enable_or_disable_relation_divs(enable_relation)
-	{
-		if(enable_relation)
-		{
-			$('#relate_to_work_item').show();
-			$('#relate_to').show();
-		}
-		else
-		{
-			$('#relate_to_work_item').hide();
-			$('#relate_to').hide();
-			$('#relation_protocol').prop('checked',false);
-			$('#relation_abstract').prop('checked',false);
-			$('#relation_concept_sheet').prop('checked',false);
-			$('#related-work-item').val(-1);
-
-			
-			$('#relation_protocol').click(function(){
-				work_item_type=$(this).val();
-				get_work_item_by_type(work_item_type);
-			});
-			$('#relation_abstract').click(function(){
-				work_item_type=$(this).val();
-				get_work_item_by_type(work_item_type);
-			});
-			$('#relation_concept_sheet').click(function(){
-				work_item_type=$(this).val();
-				get_work_item_by_type(work_item_type);
-				
-			});		
-		}
-	}
-
-	if($('#relation_concept_sheet').is(':checked'))
-	{
-		work_item_type=$(this).val();
-		get_work_item_by_type(work_item_type);
-	}
-	if($('#relation_concept_sheet').is(':checked'))
-	{
-		work_item_type=$(this).val();
-		get_work_item_by_type(work_item_type);
-	}
-	if($('#relation_concept_sheet').is(':checked'))
-	{
-		work_item_type=$(this).val();
-		get_work_item_by_type(work_item_type);
-	}
+	
 
 	//function to get work item based on work item type
 	function get_work_item_by_type(work_item_type)
@@ -73,19 +26,11 @@ $(document).ready(function () {
 		},'json');
 	}
 	
-	//call function to enable or disable relation to div
-	enable_or_disable_relation_divs(enable_relation);	
-
 	
-
-	//click event on enable relation checkbox
-	$('#enable_relation').click(function(){
-			enable_relation=$(this).is(':checked');
-			enable_or_disable_relation_divs(enable_relation);
-	});
 	//setup Date picker Controls
 	$('#date-received').datepicker();
 	$('#submission-deadline').datepicker();	
+	$('.date_input').datepicker();
 	
 	$('#work-item-type').selectedIndex=-1;
 	//link click events
@@ -94,151 +39,10 @@ $(document).ready(function () {
 		alert('asadad');
 	});
 
-	$('#btn-submit-staff_modal').click(function(e){
-		e.preventDefault();
-		$(".error").css("color", "red");
-		var first_name=$('#first-name').val();
-		var second_name=$('#second-name').val();
-		var last_name=$('#last-name').val();
-		var organisation=$('#organisation').val();
-		var country=$('#country').val();
-		var designation=$('#designation').val();
-		var title=$('#title').val();
-		
-		if(title==""||first_name==""||last_name==""||second_name==""||organisation==""||country==""||designation=="")
-			{
-				if(title=="")
-				{
-					$('#title').css('border-color','red');
-					$('#title').focus();
-				}
-				if(first_name=="")
-				{
-					$('#first-name').css('border-color','red');
-					$('#first-name').focus();
-				}
-				if(second_name=="")
-				{
-					//$('#second-name-error').html('second name required');
-					$('#second-name').css('border-color','red');
-					$('#second-name').focus();
-				}
-				if(last_name=="")
-				{
-					$('#last-name').css('border-color','red');
-					$('#last-name').focus();
-				}
-				if(organisation=="")
-				{
-					$('#organisation').focus();
-					$('#organisation').css('border-color','red');
-				}
-				if(country=="")
-				{
-					$('#country').focus();
-					$('#country').css('border-color','red');
-				}
-				if(designation=="")
-				{
-					$('#designation').focus();
-					$('#designation').css('border-color','red');
-				}
-
-				return false;
-			}
-
-			else
-			{
-				var work_item_id=$('#work-items-id').val();
-				var post_url="/ORT/Authors/Create_missing_authors";
-				var new_author_id;
-				$.post(post_url,{'title':title,'first_name':first_name, 'second_name':second_name,
-									'last_name':last_name, 'organisation':organisation,'country':country,
-									'designation':designation},function(returned_data){
-										new_author_id=returned_data
-										var authors_url="/ORT/Authors/get_author_list";
-										var author_option_string= '<option></option>';
-
-										$.post(authors_url, {'work_item_id':work_item_id},function(data){
-												
-											$.each(data,function(){
-												author_option_string+='<option value="'+this.author_id+'">';
-												author_option_string+=this.first_name+' '+this.second_name+' '+this.last_name;
-												author_option_string+='</option>';
-											});
-											console.log(author_option_string);
-											$('#author').html('');
-											$('#author').html(author_option_string);
-											$('#author').val(new_author_id);
-										},'json');
-									},'json');
-				
-										$('#title').val(-1);
-										$('#organisation').val(-1);
-										$('#country').val(-1);
-										$('#designation').val(-1);
-										$('#first-name').val('');
-										$('#second-name').val('');
-										$('#last-name').val('');
-										$('#telephone').val('');
-										$('#email').val('');
-
-
-
-										
-				
-			}
-		
-	});
-	
-	$('#designation').change(function(){
-		change_border_color('#designation');
-
-	});
-
-	$('#organisation').change(function(){
-		change_border_color('#organisation');
-
-	});
-	$('#country').change(function(){
-		change_border_color('#country');
-
-	});
-	$('#title').change(function(){
-		change_border_color('#title');
-
-	});
-	$('#first-name').keypress(function(){
-		change_border_color('#first-name');
-
-	});
-	$('#last-name').keypress(function(){
-		change_border_color('#last-name');
-
-	});
-
-	$('#second-name').keypress(function(){
-		change_border_color('#second-name');
-
-	});
-	$('#email').keypress(function(){
-		change_border_color('#email');
-
-	});
 	
 	
-	function change_border_color(object_id)
-	{
-		
-			if($(object_id).val()=="")
-			{
-				$(object_id).css('border-color','red');	
-			}
-			else
-			{
-				$(object_id).css('border-color','green');
-			}
-	}
+	
+
 	//search work items
 	$('#btn-search').click(function(e){
 		e.preventDefault();
@@ -499,6 +303,7 @@ $('#new_root_wizard').bootstrapWizard({onNext: function(tab, navigation, index) 
 		});
 
 
+
 	});
 
 // Functions 
@@ -507,9 +312,8 @@ function create_datepicker(text_box_id){
 	$('#'+text_box_id).datepicker();
 	alert('asdassa');
 }
-
+//function to create wizard
 function create_wizard(wizard_id)
 {
-	alert('wiasa');
-}
 	
+}

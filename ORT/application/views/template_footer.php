@@ -34,6 +34,15 @@
 <script src="<?php echo base_url()?>assets/plugins/validationengine/js/languages/jquery.validationEngine-en.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
 <script src="<?php echo base_url()?>assets/js/validationInit.js"></script>
+
+<!--Page level scripts from /page_level script folder -->
+<script src="<?php echo base_url()?>assets/js/page_level_scripts/js_new_author_form_two.js"></script>
+<script src="<?php echo base_url()?>assets/js/page_level_scripts/js_create_new_author_modal_window.js"></script>
+<script src="<?php echo base_url()?>assets/js/page_level_scripts/js_distribution_piechart.js"></script>
+
+<!--include charts.js-->
+<script src="<?php echo base_url()?>assets/js/charts-js/Chart.js"></script>
+<script src="<?php echo base_url()?>assets/js/charts-js/Chart.min.js"></script> 
 <!--javascript for data tables-->
 <script src="<?php echo base_url()?>assets/plugins/dataTables/jquery.dataTables.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/dataTables/dataTables.bootstrap.js"></script>

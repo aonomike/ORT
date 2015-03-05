@@ -76,7 +76,7 @@
                                             <label for="details" class="control-label col-lg-4">Details</label>
 
                                             <div class="col-lg-4">
-                                                <textarea id="details"  value="<?php echo htmlentities($work_item->details); ?>" name="details" class="form-control" cols="53" required ></textarea>
+                                                <textarea id="details"  value="<?php echo htmlentities($work_item->details); ?>" name="details" class="form-control" cols="53" required ><?php echo $work_item->details ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-actions no-margin-bottom" style="text-align:center;">
