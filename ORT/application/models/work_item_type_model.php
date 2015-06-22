@@ -89,4 +89,59 @@ class Work_item_type_model extends CI_Model
 		}
 	}
 
+	public function get_work_type_parent_child_relationship($id)
+	{
+		try {
+					$query='SELECT pcr.parent_type, pcr.child_type, pcr.id, wt.description AS Parent, wit.description AS Child
+						FROM work_type_paret_child_relation pcr
+						JOIN work_type wt ON wt.work_type_id = pcr.parent_type
+						JOIN work_type wit ON wit.work_type_id = pcr.child_type
+						WHERE pcr.child_type =';
+				$query.=$id;
+
+				$query_result= $this->db->query($query);
+
+				if($query_result->num_rows()>0)
+				{
+					foreach ($query_result->result() as $row) {
+						# code...
+						$rows[]=$row;
+						//return $row;
+					}
+					return $rows;
+				}
+				else
+				{
+					return false;
+				}
+		} catch (Exception $e) {
+			echo('Error Message :'.$e->getMessage());
+		}
+	}
+
+	public function get_label_for_work_item_type_crucial_dates($work_item_type)
+	{
+		try {
+					$query='SELECT c.caption_id, c.work_item_type, c.caption
+							FROM label_for_worlk_item_crucial_dates_caption c
+							JOIN work_type wt ON wt.work_type_id = c.work_item_type
+							WHERE c.work_item_type=';
+					$query.=$work_item_type;
+
+				$query_result= $this->db->query($query);
+
+				if($query_result->num_rows()==1)
+				{
+					return $query_result->row();
+				}
+				else
+				{
+					return false;
+				}
+			
+		} catch (Exception $e) {
+			echo('Error Message: '.$e->getMessage());
+		}
+	}
+
 }

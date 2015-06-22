@@ -98,11 +98,12 @@ class Author_model extends CI_Model
 
 	public function get_authors_not_inserted_for_work_item($work_item_id)
 	{
-		$sql='SELECT author.author_id, s.first_name, s.second_name, s.last_name
+		$sql='SELECT author.author_id, upper(s.first_name) AS first_name , upper(s.second_name) AS second_name , s.last_name
 		FROM author
 		INNER JOIN staff s ON author.staff_id = s.staff_id
 		WHERE author.author_id NOT
 		IN (
+
 
 		SELECT a.author_id
 		FROM author a
@@ -127,6 +128,31 @@ class Author_model extends CI_Model
 		}
 		
 	}
+
+	public function get_authors_for_work_item()
+	{
+		$sql='SELECT author.author_id, upper(s.first_name) AS first_name, upper(s.second_name) AS second_name, s.last_name
+		FROM author
+		INNER JOIN staff s ON author.staff_id = s.staff_id
+		ORDER BY s.first_name, s.second_name';
+
+		$query=$this->db->query($sql);
+		if($query->num_rows()>0)
+		{
+			foreach ($query->result() as $qvalue) {
+				
+					$author_detail[]=$qvalue;			
+								
+			}
+			return $author_detail;
+		}		
+		else
+		{
+			return false;
+		}
+		
+	}
+
 
 	public function get_authors_types_except_lead_author($work_item_id)
 	{
@@ -178,12 +204,13 @@ class Author_model extends CI_Model
 	public function get_author_by_id($id)
 	{ 
 		$this->db->where('author_id',$id);
-		$this->db->select('author');
+		$this->db->select();
+		$this->db->from('author');
 		$query = $this->db->get();
 
 		if ($query->num_rows()==1)
 		{
-			return $query->result();
+			return $query->row();
 		}
 
 		else
@@ -201,6 +228,91 @@ class Author_model extends CI_Model
 			JOIN work_item_author wia ON wia.author_id = a.author_id
 			JOIN author_type at ON wia.author_type = at.author_type_id
 			WHERE wia.work_item_id =".$id;
+		$query=$this->db->query($q);
+		if($query->num_rows()>0)
+		{
+			foreach ($query->result() as $qvalue) {
+				
+					$author_detail[]=$qvalue;			
+								
+			}
+			return $author_detail;
+		}		
+		else
+		{
+			return false;
+		}
+	}
+
+	public function get_author_contacts($author_id)
+	{
+		$q="SELECT sc.contact_id, sc.contact_type, sc.contact_value, sc.staff_id, s.first_name, s.second_name, ct.descriptions
+			FROM staff_contact sc
+			JOIN staff s ON s.staff_id = sc.staff_id
+			JOIN contact_type ct ON ct.contact_type_id= sc.contact_type
+			WHERE sc.staff_id
+			IN (
+
+			SELECT a.staff_id
+			FROM author a
+			WHERE a.author_id =";
+		$q.=$author_id;
+		$q.=" )";
+		$query=$this->db->query($q);
+		if($query->num_rows()>0)
+		{
+			foreach ($query->result() as $qvalue) {
+				
+					$author_detail[]=$qvalue;			
+								
+			}
+			return $author_detail;
+		}		
+		else
+		{
+			return false;
+		}
+	}
+
+	public function get_author_contacts_by_contact_id($contact_id)
+	{
+		$q="SELECT sc.contact_id, sc.contact_type, sc.contact_value, sc.staff_id, s.first_name, s.second_name, ct.descriptions
+			FROM staff_contact sc
+			JOIN staff s ON s.staff_id = sc.staff_id
+			JOIN contact_type ct ON ct.contact_type_id= sc.contact_type
+			WHERE sc.staff_id
+			IN (
+
+			SELECT c.staff_id
+			FROM staff_contact c
+			WHERE c.contact_id =";
+		$q.=$contact_id;
+		$q.=" )";
+		$query=$this->db->query($q);
+		if($query->num_rows()>0)
+		{
+			foreach ($query->result() as $qvalue) {
+				
+					$author_detail[]=$qvalue;			
+								
+			}
+			return $author_detail;
+		}		
+		else
+		{
+			return false;
+		}
+	}
+
+
+	public function get_author_contacts_by_staff_id($staff_id)
+	{
+		$q="SELECT sc.contact_id, sc.contact_type, sc.contact_value, sc.staff_id, s.first_name, s.second_name, ct.descriptions
+			FROM staff_contact sc
+			JOIN staff s ON s.staff_id = sc.staff_id
+			JOIN contact_type ct ON ct.contact_type_id= sc.contact_type
+			WHERE sc.staff_id=";
+		$q.=$staff_id;
 		$query=$this->db->query($q);
 		if($query->num_rows()>0)
 		{

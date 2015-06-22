@@ -43,7 +43,7 @@
 		                            <tr>
 		                            	<td colspan="5">
 			                            	<div class="toolbar">
-							                    <a href="<?php echo base_url();?>Work_item/create_work_items_form_two" class="btn btn-primary btn-line">New</a>
+							                    <a href="<?php echo base_url();?>Work_item/create_work_items_form_two" class="btn btn-primary btn-line">Add New Item</a>
 	                   						</div>
 	                   					</td>
 		                            </tr>
@@ -88,9 +88,12 @@
 							                            			</li>
 							                            			<li> 
 									                            		<a href="<?php echo base_url();?>Work_item_stage_output/list_work_item_stage_output_with_workitem_id/<?php echo $work->work_item_id; ?>"><i class="icon-edit"></i> View Documents </a>
-									                           		</li>												                           												                            
+									                           		</li>
 									                           		<li>
-									                            		<a href="<?php echo base_url();?>Work_item/void_work_items_by_id/<?php echo $work->work_item_id; ?>"><i class="icon-remove-circle"></i> View Presentations </a>
+									                            		<a href="<?php echo base_url();?>Work_item/list_related_work_item/<?php echo $work->work_item_id; ?>"><i class="glyphicon glyphicon-retweet"></i> Link Work Items </a>
+									                            	</li>												                           												                            
+									                           		<li>
+									                            		<a href="<?php echo base_url();?>Work_item/void_work_items_by_id/<?php echo $work->work_item_id; ?>"><i class="glyphicon glyphicon-trash"></i> Recycle Bin </a>
 									                            	</li>
 														  		</ul>
 														</div>
@@ -105,6 +108,5 @@
 		            </div>
 		        </div>
 		    </div>
-		</div>
 	</div>
 </div>

@@ -19,7 +19,7 @@ class Output_type_model extends CI_Model
 		}
 	
 	//delete output type by id
-//delete output
+	//delete output
 	public function delete_output_type_by_id($id)
 	{
 		

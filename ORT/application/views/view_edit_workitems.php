@@ -21,7 +21,7 @@
                         </div>
                     </header>
                 </div>
-                 <div id="collapseOne" class="accordion-body collapse in body">                                        
+                <div id="collapseOne" class="accordion-body collapse in body">                                        
                                       <?php echo validation_errors()?>          
                                         <?php
                                             $attributes = array('class' =>'form-horizontal', 'id'=>'block-validate','name'=>'edit-work-item' ,'method'=>'post' );

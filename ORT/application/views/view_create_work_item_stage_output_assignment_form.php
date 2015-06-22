@@ -45,13 +45,13 @@
                                             </div>
                                         </div> 
                                         <div class="form-group">
-                                            <label for="second-name" class="control-label col-lg-4">Date Assigned</label>
+                                            <label for="date-assigned" class="control-label col-lg-4">Date Assigned</label>
                                             <div class="col-lg-4">
-                                                <input type="datetime" value="<?php echo set_value('date-assigned');?>" id="date-assigned" name="date-assigned" class="form-control date_input"  required="required" />
+                                                <input type="text" value="<?php echo set_value('date-assigned');?>" id="date-assigned" name="date-assigned" class="form-control date_input"  required="required" />
                                             </div>
                                         </div> 
                                         <div class="form-group">
-                                            <label for="last-name" class="control-label col-lg-4">Date Expected Back</label>
+                                            <label for="date-expected-back" class="control-label col-lg-4">Date Expected Back</label>
                                             <div class="col-lg-4">
                                                 <input type="text" value="<?php echo set_value('date-expected-back');?>" id="date-expected-back" name="date-expected-back" class="form-control date_input" required="required"/>
                                             </div>

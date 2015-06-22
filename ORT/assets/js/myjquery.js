@@ -4,34 +4,27 @@ $(document).ready(function () {
 	var new_work_item_id;
 	var work_item_type; 
 	
-
-	
-
-	//function to get work item based on work item type
-	function get_work_item_by_type(work_item_type)
-	{
-		var url='/ORT/Work_item/get_work_item_by_type';
-		$.post(url,{'work_item_type':work_item_type},function(returned_data){
-			var html='';
-			$('#related-work-item').html('');
-			$.each(returned_data,function(){
-				
-				html+= '<option value="'+this.work_item_id+'">';
-				html+=this.description;
-				html+='</option>';
-
-			});
-			$('#related-work-item').html(html);
-			$('#related-work-item').val(-1);
-		},'json');
-	}
-	
-	
 	//setup Date picker Controls
-	$('#date-received').datepicker();
-	$('#submission-deadline').datepicker();	
-	$('.date_input').datepicker();
+	$('#date-received').datepicker({
+		dateFormat:"yy-mm-dd"
+	});
+	$('#date-expected-back').datepicker({
+		dateFormat:"yy-mm-dd"
+	});
+	$('#date-received').datepicker({
+		dateFormat:"yy-mm-dd"
+	});
 	
+	$('#submission-deadline').datepicker({
+		dateFormat:"yy-mm-dd"
+	});	
+	$('.date_input').datepicker({
+		dateFormat:"yy-mm-dd"
+	});
+	$('#btn-submit').click(function(){
+		console.log($('#date-expected-back').val());
+	});
+
 	$('#work-item-type').selectedIndex=-1;
 	//link click events
 	$('.create_author').click(function(e){
@@ -92,11 +85,7 @@ $(document).ready(function () {
 
 	});
 
-// load create work item form
-$('#create-new').click(function(e){
-	//e.preventDefault();
-	//alert('mike');	
-});
+
 	//Wizard controls
 	$('#rootwizard').bootstrapWizard({onNext: function(tab, navigation, index) {
 		if(index==2) {
@@ -248,9 +237,7 @@ $('#new_root_wizard').bootstrapWizard({onNext: function(tab, navigation, index) 
 										},'json');
 
                                    	var new_post_url = '/ORT/Authors/get_authors_not_inserted_for_work_item_with_jpost';
-                                   	alert('mike');
                                    	$.post(new_post_url, {'new_work_item_id':new_work_item_id}, function(returned_data){
-                                   		alert('asaas');
                                    	},'json');
 											
                                     });
@@ -297,20 +284,13 @@ $('#new_root_wizard').bootstrapWizard({onNext: function(tab, navigation, index) 
 				
 			} ,'json');
 		});
-
-		$('#work-item').change(function(){
-			//var post_url='/ORT/Work_item_stage/get_stages_by_work_item_stage';
-		});
-
-
-
+	
 	});
 
 // Functions 
 function create_datepicker(text_box_id){
 
 	$('#'+text_box_id).datepicker();
-	alert('asdassa');
 }
 //function to create wizard
 function create_wizard(wizard_id)

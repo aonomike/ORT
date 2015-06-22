@@ -29,7 +29,7 @@
 		                            <tr>
 		                            	<td colspan="5">
 			                            	<div class="toolbar">
-							                    <a href="<?php echo base_url();?>Work_item_author/create_work_items_author_form/<?php echo $work_item_id ?>" class="btn btn-primary btn-line">New</a>							                   
+							                    <a href="<?php echo base_url();?>Work_item_author/create_work_items_author_form/<?php echo $work_item_id ?>" class="btn btn-primary btn-line">Add New Work Item Author</a>							                   
 							                </div>
 	                   					</td>
 		                            </tr>
@@ -52,24 +52,24 @@
 		                        		<?php if (is_array($work_item_author)){ ?>
 			                        	    <?php foreach ($work_item_author as $a): ?>
 				                           		<tr class="gradeA">
-				                           			<td><?php echo $a->first_name.' '.$a->second_name.' '.$a->last_name; ?></td>
+				                           			<td><?php echo $a->first_name.' '.$a->second_name ?></td>
 				                           			<td><?php echo $a->author_type_description; ?></td>
 				                           			<td>
 				                           				<div class="btn-group">
-																	<button class="btn btn-primary"><i class="icon-gear"></i> action</button>
-																	<button data-toggle="dropdown" class="btn dropdown-toggle"><span class="caret"></span></button>
-																		<ul class="dropdown-menu">
-																			<li>
-											                    				<a href="<?php echo base_url();?>Authors/view_author_details/<?php echo $a->author_id; ?>"><i class="icon-eye-open"></i> View Details</a>
-									                            			</li>
-									                            			<li>
-											                            		<a href="<?php echo base_url();?>Authors/add_author_contact_form/<?php echo $a->author_id; ?>"><i class="icon-edit"></i> Add Contact </a>
-											                           		</li>												                           												                            
-											                           		<li>
-											                            		<a href="<?php echo base_url();?>Work_item_author/retire_work_item_author/<?php echo $work_item_id ?>/<?php echo $a->id; ?>"><i class="icon-remove-circle"></i> Retire Author </a>
-											                            	</li>
-																  </ul>
-																</div>
+															<button class="btn btn-primary"><i class="icon-gear"></i> action</button>
+															<button data-toggle="dropdown" class="btn dropdown-toggle"><span class="caret"></span></button>
+																<ul class="dropdown-menu">
+																	<li>
+									                    				<a href="<?php echo base_url();?>Work_item_author/view_work_item_author_details/<?php echo $work_item_id ?>/<?php echo $a->id; ?>"><i class="icon-eye-open"></i> View Details </a>
+							                            			</li>
+							                            			<li>
+									                            		<a href="<?php echo base_url();?>Authors/list_author_contacts/<?php echo $a->author_id; ?>"><i class="glyphicon glyphicon-phone"></i>View Author Contacts</a>
+									                           		</li>											                           												                            
+									                           		<li>
+									                            		<a href="<?php echo base_url();?>Work_item_author/retire_work_item_author/<?php echo $work_item_id ?>/<?php echo $a->id; ?>"><i class="icon-remove-circle"></i>Retire Author</a>
+									                            	</li>
+														  		</ul>
+														</div>
 				                           			</td>		                           			
 				                           		</tr>
 				                           <?php  endforeach ; ?>

@@ -42,7 +42,7 @@
 		                            <tr>
 		                            	<td colspan="5">
 			                            	<div class="toolbar">
-							                    <a href="<?php echo base_url();?>Document/create_work_item_stage_output_assigment_form_pass_work_item_id/<?php echo $work_item_stage_output->work_item_stage_output_id ?>" class="btn btn-primary btn-line">New</a>
+							                    <a href="<?php echo base_url();?>Document/create_work_item_stage_output_assigment_form_pass_work_item_id/<?php echo $work_item_stage_output->work_item_stage_output_id ?>" class="btn btn-primary btn-line">Add New Assignment</a>
 	                   						</div>
 	                   					</td>
 		                            </tr>
@@ -75,15 +75,15 @@
 															<button class="btn btn-primary"><i class="icon-gear"></i> action</button>
 															<button data-toggle="dropdown" class="btn dropdown-toggle"><span class="caret"></span></button>
 																<ul class="dropdown-menu">
-																	<li>
+																	<!-- <li>
 									                    				<a href="<?php echo base_url();?>Work_item_stage_output/view_work_item_stage_output/<?php echo $s->work_item_stage_output_id; ?>"><i class="icon-eye-open"></i> View Details</a>
-							                            			</li>
+							                            			</li> -->
 							                            			<li>
 									                            		<a href="<?php echo base_url();?>Document/list_work_item_stage_output_assignment_by_work_item_stage_output_id/<?php echo $s->work_item_stage_output_id; ?>"><i class="icon-edit"></i> View Assignments </a>
 									                           		</li>												                           												                            
-									                           		<li>
+									                           		<!-- <li>
 									                            		<a href="<?php echo base_url();?>Work_item_stage_output/void_work_item_stage_output/<?php echo $s->work_item_stage_output_id; ?>"><i class="icon-remove-circle"></i> Recycle Bin </a>
-									                            	</li>
+									                            	</li> -->
 														  </ul>
 														</div>	
 												      </td>						                           			
