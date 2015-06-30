@@ -23,6 +23,10 @@
         <![endif]-->
     <!-- GLOBAL STYLES -->
     <!-- GLOBAL STYLES -->
+    <link rel="stylesheet" href="<?php echo base_url()?>assets/jquery-ui/jquery-ui.css" />
+    <link rel="stylesheet" href="<?php echo base_url()?>assets/jquery-ui/jquery-ui.min.css" />
+    <link rel="stylesheet" href="<?php echo base_url()?>assets/jquery-ui/jquery-ui.structure.min.css" />
+    <link rel="stylesheet" href="<?php echo base_url()?>assets/jquery-ui/jquery-ui.theme.min.css" />
     <link rel="stylesheet" href="<?php echo base_url()?>assets/plugins/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="<?php echo base_url()?>assets/css/main.css" />
     <link rel="stylesheet" href="<?php echo base_url()?>assets/css/theme.css" />
@@ -325,11 +329,6 @@
                     <h5 class="media-heading"> <?php echo( $this->session->userdata('staff_name')); ?></h5>
                     <ul class="list-unstyled user-info">
                         
-                        <li>
-                             <a class="btn btn-success btn-xs btn-circle" style="width: 10px;height: 12px;"></a> Online
-                           
-                        </li>
-                        
                     </ul>
                 </div>
                 <br />
@@ -412,7 +411,7 @@
                         <span class="pull-right">
                             <i class="icon-angle-left"></i>
                         </span>
-                          &nbsp; <span class="label label-success">3</span>&nbsp;
+                          &nbsp; <span class="label label-success"></span>&nbsp;
                     </a>
                     <ul class="collapse" id="form-nav">
                     <?php if(in_array("list authors", $right_array, true)) 
@@ -434,45 +433,16 @@
                 if(in_array("manage processes", $right_array, true))
                         {
               ?>
-                <li class="panel ">
+                <!-- <li class="panel ">
                     <a href="#" data-parent="#menu" data-toggle="collapse" class=" collapsed" data-target="#processes">
                         <i class="icon-tasks"></i> Processes<span class="pull-right">
                             <i class="icon-angle-left"></i>
                         </span>
                           &nbsp; <span class="label label-success">5</span>&nbsp;
                     </a>
-                    <ul class="collapse" id="processes">
-                        <?php if(in_array("list status", $right_array, true)) 
-                            {?>
-                                <li class=""><a href="<?php echo base_url();?>Status/list_status"><i class="icon-angle-right"></i> Status </a></li>
-                        <?php } ?>
-                        <?php if(in_array("list work item status", $right_array, true)) 
-                            {?>
-                                <li class=""><a href="<?php echo base_url();?>Work_item_status/list_work_item_status"><i class="icon-angle-right"></i> Work Item Status </a></li>
-                        <?php } ?>
-                       <?php if(in_array("list work item stage", $right_array, true)) 
-                            {?>
-                                <li class=""><a href="<?php echo base_url();?>Work_item_stage/list_work_item_stage"><i class="icon-angle-right"></i> Work Item Stage </a></li>  
-                        <?php } ?>
-                         <?php if(in_array("list work item stage status", $right_array, true)) 
-                            {?>
-                                <li class=""><a href="<?php echo base_url();?>Work_item_stage_status/list_work_item_stage_status"><i class="icon-angle-right"></i> Work Item Stage Status</a></li>  
-                         <?php } ?>
-                        <?php if(in_array("list outputs", $right_array, true)) 
-                            {?>
-                                <li class=""><a href="#"><i class="icon-angle-right"></i> Output </a></li>    
-                        <?php } ?>
-                        <?php if(in_array("list work item stage outputs", $right_array, true)) 
-                            {?>
-                                <li class=""><a href="<?php echo base_url();?>Work_item_stage_output/list_work_item_stage_output"><i class="icon-angle-right"></i> Work Item Stage Output </a></li>
-
-                            <?php } ?>
-
-                            
-                                <li class=""><a href="<?php echo base_url();?>Work_item_stage_output/receive_output_form"><i class="icon-angle-right"></i> Receive Document</a></li>  
+                    <ul class="collapse" id="processes"> 
                     </ul>
-
-                </li>
+                </li> -->
                 <?php } 
 
                 if(in_array("manage output", $right_array, true))

@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label class="control-label col-lg-4" for="work-item-type">Scientific Item Type</label>
                             <div class="col-lg-4">
-                                <select id="work-item-type" name="work-item-type" class="form-control" required="required">
+                                <select id="work-item-type" name="work-item-type" class="form-control" required="required" value="<?php echo set_value('work-item-type') ?>">
                                    <option ></option>
                                     <?php foreach ($work_item_type as $s):  ?>  
                                         <option value="<?php echo $s->work_type_id ?>"><?php echo $s->description ?></option> 
@@ -49,8 +49,8 @@
                                 <input type="text" id="reference-number" name="reference-number" class="form-control" value="<?php echo set_value('reference-number') ?>" required="required" />
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="submission-deadline" class="control-label col-lg-4">Deadline Date</label>
+                        <div class="form-group" id="crucial-date">
+                            <label id="crucial-date-label" for="submission-deadline" class="control-label col-lg-4">Deadline Date</label>
 
                             <div class="col-lg-4">
                                 <input type="datetime" id="submission-deadline" name="submission-deadline" class="form-control"  data-date-format="yyyy-mm-dd" required="required" value="<?php echo set_value('submission-deadline') ?>"/>
@@ -60,41 +60,32 @@
                             <label for="details" class="control-label col-lg-4">Description</label>
 
                             <div class="col-lg-4">
-                                <textarea name="details" id="details" cols="52" value="<?php echo set_value('details') ?>" required="required"></textarea> 
+                                <textarea name="details" id="details" cols="52" ><?php echo set_value('details') ?></textarea> 
                             </div>
                         </div>
-                        <div class="form-group">
+                       <!--  <div class="form-group" id="div-relations">
                             <label for="enable_relation" class="control-label col-lg-4"></label>
 
                             <div class="col-lg-4">
                                 <input type="checkbox" name="enable_relation" id="enable_relation" value="<?php echo set_value('enable_relation') ?>"/> Enable Relation
                             </div>
-                        </div> 
-                        <div class="form-group" id="relate_to">
-                            <label for="relation_item_type" class="control-label col-lg-4"> Relation Item Type</label>
-
-                            <div class="col-lg-4">
-                                <input type="radio" name="relation_item_type" id="relation_protocol" value="3"/> Protocol     <br/>
-                                <input type="radio" name="relation_item_type" id="relation_abstract" value="2"/> Abstract     <br/>
-                                <input type="radio" name="relation_item_type" id="relation_concept_sheet"  value="4"/> Concept Sheet   <br/>
-                            </div>
-                        </div> 
-                        <div class="form-group" id="relate_to_work_item">
+                        </div>  -->
+                        <!-- <div class="form-group" id="relate_to_work_item" >
                             <label for="related-work-item" class="control-label col-lg-4">Relate To</label>
 
                             <div class="col-lg-4">
                                 <select id="related-work-item" name="related-work-item" class="form-control" required="required" value="<?php echo set_value('related-work-item') ?>">
                                    <option ></option>
                                     <?php foreach ($work_items as $s):  ?>  
-                                        <option value="<?php echo $s->work_type_id ?>"><?php echo $s->description ?></option> 
+                                        <option value="<?php echo $s->work_item_id ?>"><?php echo $s->description ?></option> 
                                     <?php endforeach; ?> 
                                 </select>
                             </div>
-                        </div> 
+                        </div>  -->
                         <div class="form-actions no-margin-bottom" style="text-align:center;">
                             <input type="submit" id="btn-submit" value="Submit" class="btn btn-primary btn-lg " />
                             <input type="reset" id="btn-reset" value="Clear" class="btn btn-warning btn-lg " />
-                            <input type="button" id="btn-cancel" value="Cancel" class="btn btn-danger btn-lg " />
+                            <a  id="cancel-work-item" value="Cancel" class="btn btn-danger btn-lg " href="<?php echo base_url()?>Home/load_home_page"> Back</a>
                         </div>
 
                     </form>                

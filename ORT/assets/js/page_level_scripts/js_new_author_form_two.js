@@ -9,70 +9,7 @@ $(document).ready(function(){
 	//call the get institution of affiliation autocomplete function to organisation text boxes
 	get_institution_of_affiliation_autocomplete()
 
-	var enable_relation=$('#enable_relation').is(':checked') ;
 	
-	function enable_or_disable_relation_divs(enable_relation)
-	{
-		if(enable_relation)
-		{
-			$('#relate_to_work_item').show();
-			$('#relate_to').show();
-		}
-		else
-		{
-			$('#relate_to_work_item').hide();
-			$('#relate_to').hide();
-			$('#relation_protocol').prop('checked',false);
-			$('#relation_abstract').prop('checked',false);
-			$('#relation_concept_sheet').prop('checked',false);
-			$('#related-work-item').val(-1);
-
-			
-			$('#relation_protocol').click(function(){
-				var type=$(this).val();
-				console.log(type);
-				get_work_item_by_type(type);
-			});
-			$('#relation_abstract').click(function(){
-				var type=$(this).val();
-				console.log(type);
-				get_work_item_by_type(type);
-			});
-			$('#relation_concept_sheet').click(function(){
-				var type=$(this).val();
-				console.log(type);
-				get_work_item_by_type(type);
-				
-			});		
-		}
-	}
-
-	if($('#relation_concept_sheet').is(':checked'))
-	{
-		var type=$('#relation_protocol').val();
-		get_work_item_by_type(type);
-	}
-	if($('#relation_abstract').is(':checked'))
-	{
-		var type=$('#relation_protocol').val();
-		get_work_item_by_type(type);
-	}
-	if($('#relation_protocol').is(':checked'))
-	{
-		var type=$('#relation_protocol').val();
-		get_work_item_by_type(type);
-	}
-
-	//call function to enable or disable relation to div
-	enable_or_disable_relation_divs(enable_relation);	
-
-	
-
-	//click event on enable relation checkbox
-	$('#enable_relation').click(function(){
-			enable_relation=$(this).is(':checked');
-			enable_or_disable_relation_divs(enable_relation);
-	});
 
 	$('#btn-add-another').click(function(){
 		var author = $('#author').val();
@@ -119,11 +56,22 @@ $(document).ready(function(){
 			{
 
 				//call function to get author's institution of affiliation
-				get_author_institution_of_affiliation(organisation);
+				//get_author_institution_of_affiliation(organisation);
 				//call function to get author's designation
-				get_author_designation(designation);
+				//get_author_designation(designation);
 				//call function to get author's country
-				get_author_country(country)
+				//get_author_country(country);
+
+				//post to database
+				
+				url='/ORT/Work_item_author/create_new_work_item_author';
+				$.post(url,{'organisation':organisation, 'country':country, 'designation':designation, 'author':author, 'author-type':author_type, 'work-item-id':work_item_id},function(returned_data){
+						$('#author').val(-1);
+						$('#author-type').val(-1);
+						$('#organisation').val('');
+						$('#designation').val('');
+						$('#country').val('');					
+				},'json');
 			}
 
 
@@ -132,6 +80,7 @@ $(document).ready(function(){
 	});
 
 	//call validation color codes function
+
 	$('#author-type').change(function(){
 		change_border_color('#author-type');
 
@@ -180,8 +129,12 @@ function get_designations_autocomplete()
 						$.each(returned_data,function(){
 							designation_array.push(this.Name);
 						});
-					// console.log(country_array);
-					$('#designation').autocomplete({source:	designation_array}						
+						
+						$('#designation').autocomplete({
+							source:	designation_array,
+							minLength:0,
+							scroll: true
+						}						
 						);	
 				} ,'json');
 					
@@ -220,15 +173,20 @@ function get_institution_of_affiliation_autocomplete()
 					
 			}
 
+
 //function to get author's institution of affiliation
 function get_author_institution_of_affiliation(organisation)
 {
 	
 	url='/ORT/Organisation/get_organisation_by_name';
 	$.post(url,{'organisation':organisation},function(returned_data){
-		console.log(returned_data);
+		_organisation_id=returned_data;
+		
 	},'json');
+	
+	alert(_organisation_id);
 }
+	
 //function to get author's designation
 function get_author_designation(designation)
 {

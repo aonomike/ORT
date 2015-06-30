@@ -12,6 +12,11 @@ class Staff_model extends CI_Model
 		$this->db->insert('staff',$data);
 
 	}
+
+	public function create_new_staff_contact($data)
+	{
+		$this->db->insert('staff_contact',$data);
+	}
 	public function create_staff_and_return_new_id($data)
 	{
 		$this->db->insert('staff',$data);
@@ -82,14 +87,14 @@ class Staff_model extends CI_Model
 	//get staff by id
 	public function get_staff_by_id($id)
 	{
-		$this->db->where('id',$id);
+		$this->db->where('staff_id',$id);
 		$this->db->select();
 		$this->db->order_by('first_name','asc');
 		$query=$this->db->get('staff');
 
 		if($query->num_rows()==1)
 		{
-			return $query->result();
+			return $query->row();
 		}
 		else
 		{
@@ -119,4 +124,57 @@ class Staff_model extends CI_Model
 		}		
 	}
 
+	public function get_staff_contact_by_contact_id($contact_id)
+	{
+		$this->db->where('contact_id',$contact_id);
+		$this->db->select();
+		$query= $this->db->get('staff_contact');
+		if($query->num_rows()==1)
+		{
+			return $query->row();
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public function update_staff_contact($data,$contact_id)
+	{
+		$this->db->where('contact_id', $contact_id);
+		$this->db->update('staff_contact',$data);
+	}
+
+	public function get_staff_by_contact_id($contact_id)
+	{
+		try {
+				$query='SELECT contact_id, contact_type, contact_value, staff_id
+				FROM staff_contact
+				WHERE contact_id =';
+				$query.=$contact_id;
+				$query_result= $this->db->query($query);
+				if($query_result->num_rows()==1)
+				{
+					return $query_result->row();
+				}
+				else
+				{
+					return false;
+				}		
+		} catch (Exception $e) {
+			echo 'Error Message: '.$e->getMessage();
+		}
+		
+	}
+
+	public function delete_staff_contact($contact_id)
+	{
+		try {
+			$this->db->where('contact_id',$contact_id);
+			$this->db->delete('staff_contact');
+			
+		} catch (Exception $e) {
+			echo('Error Message :'. $e->getMessage());
+		}
+	}
 }

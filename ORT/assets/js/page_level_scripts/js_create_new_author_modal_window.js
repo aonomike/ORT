@@ -49,6 +49,7 @@ $(document).ready(function(){
 				$.post(post_url,{'title':title,'first_name':first_name, 'second_name':second_name,
 									'telephone':telephone,'email':email},function(returned_data){
 										new_author_id=returned_data
+										alert(new_author_id);
 										var authors_url="/ORT/Authors/get_author_list";
 										var author_option_string= '<option></option>';
 
@@ -56,14 +57,14 @@ $(document).ready(function(){
 												
 											$.each(data,function(){
 												author_option_string+='<option value="'+this.author_id+'">';
-												author_option_string+=this.first_name+' '+this.second_name+' '+this.last_name;
+												author_option_string+=this.first_name+' '+this.second_name;
 												author_option_string+='</option>';
 											});
-											console.log(author_option_string);
 											$('#author').html('');
 											$('#author').html(author_option_string);
 											$('#author').val(new_author_id);
 											$('#author').selectedIndex(new_author_id);
+
 
 										},'json');
 									},'json');

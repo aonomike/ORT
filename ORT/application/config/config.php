@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost:8081/ORT';
+$config['base_url']	= 'http://192.168.204.41:8081/ORT';
 
 /*
 |--------------------------------------------------------------------------

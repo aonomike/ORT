@@ -42,22 +42,22 @@
 		                            <tr>
 		                            	<td colspan="5">
 			                            	<div class="toolbar">
-							                    <a href="<?php echo base_url();?>Work_item_stage_output/create_work_item_stage_output_form_pass_work_item_id/<?php echo $work_item->work_item_id ?>" class="btn btn-primary btn-line">New</a>
+							                    <a href="<?php echo base_url();?>Work_item_stage_output/create_work_item_stage_output_form_pass_work_item_id/<?php echo $work_item->work_item_id ?>" class="btn btn-primary btn-line">Add New Document</a>
 	                   						</div>
 	                   					</td>
 		                            </tr>
 		                            <tr>
 		                                <th>Received From</th>
 		                                <th>File Name</th>	
-		                                <th>Output Desription</th>	                                
+		                                <th>Version</th>	                                
 		                                <th>Action</th>
 		                            </tr>
 		                        </thead>
 		                         <tfoot>
 		                        	<tr>                                
 		                                <th>Received From</th>
-		                                <th>File Name</th>	
-		                                <th>Output Desription</th>	                                
+		                                <th class="hide-footer">File Name</th>	
+		                                <th>Version </th>	                                
 		                                <th>Action</th>
 		                            </tr>
 		                        </tfoot>
@@ -68,25 +68,25 @@
 			                        	    <?php foreach ($work_item_stage_outputs as $s): ?>
 				                           		<tr class="gradeA">
 				                           			<td><?php echo $s->stage; ?></td>
-				                           			<td><a href="<?php echo base_url();?>Work_item_stage_output/download_output/<?php echo $s->upload_document_id; ?>" title="click to download"><i class="icon-download-alt"><?php echo $s->file_name; ?></i></a></td>				                           			
-				                           			<td><?php echo $s->user_remarks; ?></td>
-				                           		    <td>				                           				
-												        <div class="btn-group">
+				                           			<td><a href="<?php echo base_url();?>Work_item_stage_output/download_output/<?php echo $s->upload_document_id; ?>" title="click to download"><i class="icon-download-alt"><?php echo $s->file_name; ?></i></a></td>					                           		
+				                           			<td><?php echo $s->version; ?></td>
+				                           		    <td>
+		                           			    		<div class="btn-group">
 															<button class="btn btn-primary"><i class="icon-gear"></i> action</button>
 															<button data-toggle="dropdown" class="btn dropdown-toggle"><span class="caret"></span></button>
-																<ul class="dropdown-menu">
-																	<li>
+															<ul class="dropdown-menu">
+																	<!-- <li>
 									                    				<a href="<?php echo base_url();?>Work_item_stage_output/view_work_item_stage_output/<?php echo $s->work_item_stage_output_id; ?>"><i class="icon-eye-open"></i> View Details</a>
-							                            			</li>
+							                            			</li> -->
 							                            			<li>
 									                            		<a href="<?php echo base_url();?>Document/list_work_item_stage_output_assignment_by_work_item_stage_output_id/<?php echo $s->work_item_stage_output_id; ?>"><i class="icon-edit"></i> View Assignments </a>
 									                           		</li>												                           												                            
-									                           		<li>
+									                           		<!-- <li>
 									                            		<a href="<?php echo base_url();?>Work_item_stage_output/void_work_item_stage_output/<?php echo $s->work_item_stage_output_id; ?>"><i class="icon-remove-circle"></i> Recycle Bin </a>
-									                            	</li>
-														  </ul>
-														</div>	
-												      </td>						                           			
+									                            	</li> -->
+														  		</ul>
+														</div>
+												    </td>						                           			
 				                           		</tr>
 				                           <?php  endforeach ; ?>
 			                           <?php } ?>

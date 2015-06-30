@@ -1,8 +1,8 @@
 <div id="content">
-	<div class="inner">
+    <div class="inner">
         <div class="row">
             <div class="col-lg-12">
-            	<div class="box">
+                <div class="box">
                     <header>
                         <div class="icons"><i class="icon-th-large"></i></div>
                         <h5><?php if (isset($page_heading))
@@ -35,12 +35,12 @@
                                                 <input type="hidden" id="work-item-id" name="work-item-id" value="<?php echo $work_item->work_item_id ?>" class="form-control" required="required"/>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-lg-4" for="author">Author</label>
+                                            <label class="control-label col-lg-4" for="author">Author Name</label>
                                             <div class="col-lg-4">                                                
                                                 <select id="author" name="author" class="form-control" required="required">
                                                     <option></option>
                                                     <?php foreach ($authors as $author):  ?>  
-                                                        <option value="<?php echo $author->staff_id ?>"><?php echo $author->first_name.' '.$author->second_name.' '.$author->last_name ?></option> 
+                                                        <option value="<?php echo $author->author_id ?>"><?php echo $author->first_name.' '.$author->second_name ?></option> 
                                                     <?php endforeach; ?> 
                                                 </select>
                                             </div>
@@ -59,63 +59,40 @@
                                                     <?php endforeach; ?> 
                                                 </select>
                                             </div>
-                                        </div>  
-                                         <div class="form-group">
-                                                        <label class="control-label col-lg-4" for="organisation">Institution of Affiliation</label>
-                                                        <div class="col-lg-4">
-                                                            <select id="organisation" name="organisation" class="form-control" required="required">
-                                                                <option>  </option>
-                                                                <?php 
-                                                                    if(is_array($organisation))
-                                                                    {
-                                                                        foreach ($organisation as $org):  ?>  
-                                                                    <option value="<?php echo $org->organisation_id ;?>"><?php echo $org->name ?></option> 
-                                                                <?php endforeach;
-                                                               } ?> 
-                                                                
-                                                            </select>
-                                                        </div>  
-                                                        <label id="organisation-error" class="error">*</label>                                                      
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label col-lg-4" for="designation" >Designation</label>
-                                                        <div class="col-lg-4">
-                                                            <select id="designation" value="<?php echo set_value('designation');?>" name="designation" class="form-control" required="required">
-                                                                <option>  </option>
-                                                                <?php 
-                                                                    if(is_array($designations))
-                                                                    {
-                                                                        foreach ($designations as $designation):  ?>  
-                                                                   
-                                                                    <option value="<?php echo $designation->ID ?>"><?php echo $designation->Name ?></option> 
-                                                                <?php endforeach;  }
-                                                                ?>                                                 
-                                                            </select>
-                                                        </div> 
-                                                        <label id="designation-error" class="error">*</label>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label col-lg-4" for="country" >Country</label>
-                                                        <div class="col-lg-4">
-                                                            <select id="country" value="<?php echo set_value('country');?>" name="country" class="form-control" required="required">
-                                                                <option>  </option>
-                                                                <?php 
-                                                                    if(is_array($countries))
-                                                                    {
-                                                                        foreach ($countries as $country):  ?>  
-                                                                   
-                                                                    <option value="<?php echo $country->id?>"><?php echo $country->Name ?></option> 
-                                                                <?php endforeach;  }
-                                                                ?>                                                 
-                                                            </select>
-                                                        </div> 
-                                                        <label id="country-error" class="error">*</label>
-                                                    </div>
-                                                                           
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4" for="organisation">Institution of Affiliation</label>
+                                            <div class="col-lg-4">
+                                                <input type="text" id="organisation" name="organisation" class="form-control" required="required">
+                                            </div>  
+                                                                                                
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4" for="designation">Designation</label>
+                                            <div class="col-lg-4">
+                                                <input type="text" id="designation" name="designation" class="form-control" required="required">
+                                            </div>  
+                                                                                                
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-4" for="country">Country</label>
+                                            <div class="col-lg-4">
+                                                <select id="country" name="country" class="form-control" required="required">
+                                                    <option></option>
+                                                    <?php foreach ($countries as $country):  ?>  
+                                                        <option value="<?php echo $country->id ?>"><?php echo $country->Name ?></option> 
+                                                    <?php endforeach; ?> 
+                                                </select>
+                                            </div>  
+                                                                                                
+                                        </div>
+                                                                              
 
                                         <div class="form-actions no-margin-bottom" style="text-align:center;">
                                             <input type="submit" id="btn-submit" value="Submit" class="btn btn-primary btn-lg " />
-                                            <input type="reset" id="btn-reset" value="Clear" class="btn btn-warning btn-lg " />
+                                            <input type="button" id="btn-add-another" value="Add Another" class="btn btn-warning btn-lg " />
                                             <input type="button" id="btn-cancel" value="Cancel" class="btn btn-danger btn-lg " />
                                         </div>
 
@@ -162,19 +139,12 @@
                                                          <label id="first-name-error" class="error">*</label>
                                                     </div> 
                                                     <div class="form-group">
-                                                        <label for="second-name" class="control-label col-lg-4">Second Name</label>
+                                                        <label for="second-name" class="control-label col-lg-4">Other Names</label>
                                                         <div class="col-lg-4">
-                                                            <input type="Text" value="<?php echo set_value('second-name');?>" placeholder="Second Name" class="form-control" name="second-name" id="second-name" required="required"/>
+                                                            <input type="Text" value="<?php echo set_value('second-name');?>" placeholder="Other Names" class="form-control" name="second-name" id="second-name" required="required"/>
                                                         </div>
                                                         <label id="second-name-error" class="error">*</label>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="last-name" class="control-label col-lg-4">Last Name</label>
-                                                        <div class="col-lg-4">
-                                                            <input type="Text" value="<?php echo set_value('last-name');?>" name="last-name" id="last-name" placeholder="Last Name" class="form-control" required="required"  />
-                                                        </div>     
-                                                        <label id="last-name-error" class="error">*</label>                                                   
-                                                    </div> 
                                                     <div class="form-group">
                                                         <label for="telephone" class="control-label col-lg-4">Telephone</label>
                                                         <div class="col-lg-4">
@@ -190,58 +160,7 @@
                                                         <label id="email-error" class="error">*</label> 
                                                     </div>
                                                    
-                                                    <div class="form-group">
-                                                        <label class="control-label col-lg-4" for="organisation">Institution of Affiliation</label>
-                                                        <div class="col-lg-4">
-                                                            <select id="organisation" name="organisation" class="form-control" required="required">
-                                                                <option>  </option>
-                                                                <?php 
-                                                                    if(is_array($organisation))
-                                                                    {
-                                                                        foreach ($organisation as $org):  ?>  
-                                                                    <option value="<?php echo $org->organisation_id ;?>"><?php echo $org->name ?></option> 
-                                                                <?php endforeach;
-                                                               } ?> 
-                                                                
-                                                            </select>
-                                                        </div>  
-                                                        <label id="organisation-error" class="error">*</label>                                                      
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label col-lg-4" for="designation" >Designation</label>
-                                                        <div class="col-lg-4">
-                                                            <select id="designation" value="<?php echo set_value('designation');?>" name="designation" class="form-control" required="required">
-                                                                <option>  </option>
-                                                                <?php 
-                                                                    if(is_array($designations))
-                                                                    {
-                                                                        foreach ($designations as $designation):  ?>  
-                                                                   
-                                                                    <option value="<?php echo $designation->ID ?>"><?php echo $designation->Name ?></option> 
-                                                                <?php endforeach;  }
-                                                                ?>                                                 
-                                                            </select>
-                                                        </div> 
-                                                        <label id="designation-error" class="error">*</label>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="control-label col-lg-4" for="country" >Country</label>
-                                                        <div class="col-lg-4">
-                                                            <select id="country" value="<?php echo set_value('country');?>" name="country" class="form-control" required="required">
-                                                                <option>  </option>
-                                                                <?php 
-                                                                    if(is_array($countries))
-                                                                    {
-                                                                        foreach ($countries as $country):  ?>  
-                                                                   
-                                                                    <option value="<?php echo $country->id?>"><?php echo $country->Name ?></option> 
-                                                                <?php endforeach;  }
-                                                                ?>                                                 
-                                                            </select>
-                                                        </div> 
-                                                        <label id="country-error" class="error">*</label>
-                                                    </div>
-                                       
+                                                   
                                         <div class="form-actions no-margin-bottom" style="text-align:center;">
                                             <input type="submit" id="btn-submit-staff_modal" value="Submit" class="btn btn-primary btn-lg " />
                                             <input type="reset" id="btn-resetstaff_modal" value="Clear" class="btn btn-warning btn-lg " />
@@ -258,13 +177,7 @@
                                       </div>
                                     </div>
 
-
-
-
-
-
-
-                                </div>
+                                 </div>
             </div>
         </div>
     </div>

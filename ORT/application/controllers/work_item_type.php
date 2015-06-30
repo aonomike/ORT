@@ -8,6 +8,8 @@ class Work_item_type extends CI_Controller
 		parent::__construct();
 		$this->load->model('work_item_type_model');
 		$this->load->model('rbac_model');
+		$this->load->model('work_item_model');
+
 	}
 	public function check_login(){
 		if(!$this->session->userdata('is_logged_in'))
@@ -27,6 +29,8 @@ class Work_item_type extends CI_Controller
 		}
 		else
 		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['work_item_types']= $this->work_item_type_model->get_all_work_item_types();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
@@ -43,6 +47,8 @@ class Work_item_type extends CI_Controller
 		}
 		else
 		{	
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 			$data['error']='';
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
@@ -74,6 +80,9 @@ class Work_item_type extends CI_Controller
 						$this->work_item_type_model->create_work_item_type($input_data);	
 
 						//echo "string";	
+						$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+						$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+					
 						$data['work_item_types']= $this->work_item_type_model->get_all_work_item_types();
 						$data['template_header']='template_header';
 						$data['template_footer']='template_footer';
@@ -84,6 +93,8 @@ class Work_item_type extends CI_Controller
 					}
 					else
 					{
+						$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+						$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 						$data['errors'] = 'Unable to create Directory '.$this->input->post('description').'. Please Contact Your Administrator';
 						$data['template_header']='template_header';
 						$data['template_footer']='template_footer';
@@ -96,6 +107,8 @@ class Work_item_type extends CI_Controller
 				else
 				{
 					$this->work_item_type_model->create_work_item_type($input_data);
+					$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+					$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 					$data['work_item_types']= $this->work_item_type_model->get_all_work_item_types();
 					$data['template_header']='template_header';
 					$data['template_footer']='template_footer';
@@ -107,6 +120,8 @@ class Work_item_type extends CI_Controller
 			}
 			else
 			{
+				$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+				$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 				$data['error']='';
 				$data['template_header']='template_header';
 				$data['template_footer']='template_footer';
@@ -152,6 +167,20 @@ class Work_item_type extends CI_Controller
 			$data['title']='New Work Item Types Form';
 			$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
 			$this->load->view('template',$data);	
+		}
+	}
+
+	public function get_label_for_work_item_type_crucial_dates()
+	{
+		if ($this->check_login()) {
+			return ;
+		}
+		else
+		{
+			$work_item_type= $this->input->post('work_type');
+			$crucial_dates_caption= $this->work_item_type_model->get_label_for_work_item_type_crucial_dates($work_item_type);
+			echo json_encode($crucial_dates_caption);
+
 		}
 	}
 	

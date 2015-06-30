@@ -8,7 +8,8 @@ class Author_type extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('author_type_model');	
-		$this->load->model('rbac_model');	
+		$this->load->model('rbac_model');
+		$this->load->model('work_item_model');	
 	}
 
 	public function check_login(){
