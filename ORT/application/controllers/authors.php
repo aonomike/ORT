@@ -11,6 +11,7 @@ class Authors extends CI_Controller
 		$this->load->model('author_type_model');
 		$this->load->model('rbac_model');
 		$this->load->model('staff_contact_model');
+		$this->load->model('work_item_model');
 	}
 	public function check_login(){
 		if(!$this->session->userdata('is_logged_in'))
@@ -77,11 +78,14 @@ class Authors extends CI_Controller
 		{
 			$this->form_validation->set_rules('staff-id','Staff Name ','trim|required|xss_clean');
 			if ($this->form_validation->run()) {
-					$data = array('staff_id' =>$this->input->post('staff-id'),
-					'date_created' =>date('Y-m-d H:i:s'),
-				 	'created_by' =>$this->session->userdata('user_id'),
-				 	'last_updated_by' =>$this->session->userdata('user_id'),
-				 	'date_last_updated' =>date('Y-m-d H:i:s') );
+					
+					$data = array(
+									'staff_id' =>$this->input->post('staff-id'),
+									'date_created' =>date('Y-m-d H:i:s'),
+								 	'created_by' =>$this->session->userdata('user_id'),
+								 	'last_updated_by' =>$this->session->userdata('user_id'),
+								 	'date_last_updated' =>date('Y-m-d H:i:s') 
+								 );
 					$this->author_model->create_author($data);
 					$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
 					$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
@@ -139,19 +143,11 @@ class Authors extends CI_Controller
 							      'staff_id' => $new_staff_id ,
 							      'contact_value' => $email ,
 							      'contact_type' => 2,
-							      'date_created' =>date('Y-m-d H:i:s'),
-								  'added_by' =>$this->session->userdata('user_id'),
-								  'updated_by' =>$this->session->userdata('user_id'),
-								  'date_updated' =>date('Y-m-d H:i:s') 
 							   ),
 							   array(
 							      'staff_id' => $new_staff_id ,
 							      'contact_value' => $telephone ,
-							      'contact_type' => 1,
-							      'date_created' =>date('Y-m-d H:i:s'),
-								  'added_by' =>$this->session->userdata('user_id'),
-								  'updated_by' =>$this->session->userdata('user_id'),
-								  'date_updated' =>date('Y-m-d H:i:s')
+							      'contact_type' => 1
 							   )
 							);
 		$this->staff_contact_model->insert_batch_contacts($contact_data);
@@ -184,12 +180,33 @@ class Authors extends CI_Controller
 		{
 			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
 			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
-			$data['work_item_author']=$this->work_item_author_model->get_work_item_author_by_author_id($author_id);
+			//$data['work_item_author']=$this->work_item_author_model->get_work_item_author_by_author_id($author_id);
 			$data['author_type']= $this->author_type_model->get_author_types();
 			$data['template_header']='template_header';
 			$data['template_footer']='template_footer';
 			$data['main_content']='view_create_author_contact_form';
 			$data['title']='Create Author Contact';
+			$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
+			$this->load->view('template',$data);
+		}
+	}
+
+	public function list_author_contacts($author_id)
+	{
+		if ($this->check_login())
+		{
+			return;
+		}
+		else
+		{
+			$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
+			$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
+			$data['author']= $this->author_model->get_author_by_id($author_id);
+			$data['author_contacts']= $this->author_model->get_author_contacts($author_id);			
+			$data['template_header']='template_header';
+			$data['template_footer']='template_footer';
+			$data['main_content']='view_list_author_contact';
+			$data['title']='List Author Contact';
 			$data['rights']=$this->rbac_model->get_right_by_role($this->session->userdata('role'));
 			$this->load->view('template',$data);
 		}

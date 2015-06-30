@@ -110,7 +110,7 @@ class Country_model extends CI_Model
 
 	public function get_country_id_by_name($country_name)
 	{
-		$query = 'SELECT TOP 1 id FROM country c WHERE c.Name = ';
+		$query = 'SELECT id FROM country c WHERE c.Name = ';
 		$query.= '"'.$country_name.'"';
 		$query.=' LIMIT 0 , 1 ';
 		$query_result= $this->db->query($query);

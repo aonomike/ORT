@@ -43,10 +43,10 @@
                                                 echo form_open_multipart('Work_item_stage_output/create_work_item_stage_output',$attributes);
                                              ?> 
                                         <div class="form-group">
-                                            <input type="hidden" id="work-item-type-filter" name="work-item-type-filter" class="form-control" required="required" value="<?php echo $work_item->work_type ?>" />
+                                            <input type="hidden" id="work-item-type-value" name="work-item-type-value" class="form-control" required="required" value="<?php echo htmlentities($work_item->work_type) ?>" />
                                         </div>
                                         <div class="form-group">
-                                                <input type="hidden" id="work-item" name="work-item" class="form-control stage-output-item" required="required" value="<?php echo $work_item->work_item_id ?>" />
+                                                <input type="hidden" id="work-item-value" name="work-item-value" class="form-control stage-output-item" required="required" value="<?php echo htmlentities($work_item->work_item_id) ?>" />
                                         </div>
                                         <div class="form-group">
                                             <label for="stage" class="control-label col-lg-4">Received From</label>
@@ -62,7 +62,7 @@
                                           <div class="form-group">
                                             <label for="request" class="control-label col-lg-4">Action Request on Receipt</label>
                                             <div class="col-lg-4">
-                                                <select id="request" name="request" class="form-control" required="required">
+                                                <select id="request" name="request" class="form-control" required="required" >
                                                         <option ></option>
                                                         <?php foreach ($requests as $request):  ?>  
                                                             <option value="<?php echo $request->id ?>"><?php echo $request->description ?></option> 
@@ -73,7 +73,7 @@
                                         <div class="form-group">
                                             <label for="status" class="control-label col-lg-4">Status on Receipt</label>
                                             <div class="col-lg-4">
-                                                <select id="status" name="status" class="form-control" required="required">
+                                                <select id="status" name="status" class="form-control" required="required" >
                                                         <option ></option>
                                                         <?php foreach ($status as $state):  ?>  
                                                             <option value="<?php echo $state->status_id ?>"><?php echo $state->description ?></option> 
@@ -84,7 +84,7 @@
                                         <div class="form-group">
                                             <label for="comment" class="control-label col-lg-4">Remarks</label>
                                             <div class="col-lg-4">
-                                                <textarea id="comment" name="comment" cols="50" rows="4" required="required" value="<?php echo set_value('comment') ?>"></textarea>
+                                                <textarea id="comment" name="comment" cols="50" rows="4"  value="<?php echo set_value('comment') ?>"><?php echo set_value('comment') ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -96,14 +96,14 @@
                                         <div class="form-group">
                                             <label for="version"  class="control-label col-lg-4">Version</label>
                                             <div class="col-lg-4">
-                                                <input min="0" max-length="50"id="version" type="number" name="version" class="form-control" required="required" value="<?php echo set_value('version') ?>"/>
+                                                <input max-length="50"id="version" type="text" name="version" class="form-control" required="required" value="<?php echo set_value('version') ?>"/>
                                             </div>
                                         </div>
                                        
                                         <div class="form-actions no-margin-bottom" style="text-align:center;">
                                             <input type="submit" id="btn-submit" value="Submit" class="btn btn-primary btn-lg " />
                                             <input type="reset" id="btn-reset" value="Clear" class="btn btn-warning btn-lg " />
-                                            <input type="button" id="btn-cancel" value="Cancel" class="btn btn-danger btn-lg " />
+                                            <A href="#" id="btn-cancel" class="btn btn-danger btn-lg " />Back</a>
                                         </div>
 
                                     </form>

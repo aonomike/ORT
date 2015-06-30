@@ -49,18 +49,18 @@
                                 <input type="text" id="reference-number" name="reference-number" class="form-control" value="<?php echo set_value('reference-number') ?>" required="required" />
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="submission-deadline" class="control-label col-lg-4">Deadline Date</label>
+                        <div class="form-group" id="crucial-date">
+                            <label id="crucial-date-label" for="submission-deadline" class="control-label col-lg-4">Deadline Date </label>
 
                             <div class="col-lg-4">
-                                <input type="datetime" id="submission-deadline" name="submission-deadline" class="form-control"  data-date-format="yyyy-mm-dd" required="required" value="<?php echo set_value('submission-deadline') ?>"/>
+                                <input type="datetime" id="submission-deadline" name="submission-deadline" class="form-control"   required="required" value="<?php echo set_value('submission-deadline') ?>"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="details" class="control-label col-lg-4">Description</label>
 
                             <div class="col-lg-4">
-                                <textarea name="details" id="details" cols="52" value="<?php echo set_value('details') ?>"></textarea> 
+                                <textarea name="details" id="details" cols="52" ><?php echo set_value('details') ?></textarea> 
                             </div>
                         </div>
                         <div class="form-group">

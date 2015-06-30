@@ -26,7 +26,8 @@ class Home extends CI_Controller
 			{
 				return;
 			}
-			else{
+			else
+			{
 					$data['total_work_items']=$this->work_item_model->get_total_work_item_count();
 					$data['work_item_counts']=$this->work_item_model->get_work_item_count_by_type();
 					$data['work_item']=$this->work_item_model->search_work_item();

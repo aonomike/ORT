@@ -26,7 +26,7 @@
           
                                             <?php
                                             $attributes = array('class' =>'form-horizontal', 'id'=>'block-validate','name'=>'create_author_type' ,'method'=>'post' );
-                                                echo form_open('User_type_controller/create_user_type',$attributes);
+                                                echo form_open('Author_type/create_author_type',$attributes);
                                              ?> 
                                         <div class="form-group">
                                             <label for="description" class="control-label col-lg-4">Author Type</label>

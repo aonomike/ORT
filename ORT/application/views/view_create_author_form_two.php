@@ -35,12 +35,12 @@
                                                 <input type="hidden" id="work-item-id" name="work-item-id" value="<?php echo $work_item->work_item_id ?>" class="form-control" required="required"/>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-lg-4" for="author">Author</label>
+                                            <label class="control-label col-lg-4" for="author">Author Name</label>
                                             <div class="col-lg-4">                                                
                                                 <select id="author" name="author" class="form-control" required="required">
                                                     <option></option>
                                                     <?php foreach ($authors as $author):  ?>  
-                                                        <option value="<?php echo $author->staff_id ?>"><?php echo $author->first_name.' '.$author->second_name.' '.$author->last_name ?></option> 
+                                                        <option value="<?php echo $author->author_id ?>"><?php echo $author->first_name.' '.$author->second_name  ?></option> 
                                                     <?php endforeach; ?> 
                                                 </select>
                                             </div>
@@ -79,7 +79,12 @@
                                         <div class="form-group">
                                             <label class="control-label col-lg-4" for="country">Country</label>
                                             <div class="col-lg-4">
-                                                <input type="text" id="country" name="country" class="form-control" required="required">
+                                                <select id="country" name="country" class="form-control" required="required">
+                                                    <option></option>
+                                                    <?php foreach ($countries as $country):  ?>  
+                                                        <option value="<?php echo $country->id ?>"><?php echo $country->Name ?></option> 
+                                                    <?php endforeach; ?> 
+                                                </select>
                                             </div>  
                                                                                                 
                                         </div>
@@ -88,7 +93,7 @@
                                         <div class="form-actions no-margin-bottom" style="text-align:center;">
                                             <input type="submit" id="btn-submit" value="Submit" class="btn btn-primary btn-lg " />
                                             <input type="button" id="btn-add-another" value="Add Another" class="btn btn-warning btn-lg " />
-                                            <input type="button" id="btn-cancel" value="Cancel" class="btn btn-danger btn-lg " />
+                                            <a href="#"  id="btn-cancel"  class="btn btn-danger btn-lg " />Back</a>
                                         </div>
 
                                     </form>
@@ -143,9 +148,9 @@
                                                     <div class="form-group">
                                                         <label for="telephone" class="control-label col-lg-4">Telephone</label>
                                                         <div class="col-lg-4">
-                                                            <input type="text" placeholder="Telephone" value="<?php echo set_value('telephone');?>" id="telephone" name="telephone" class="form-control"  />
+                                                            <input type="text" placeholder="Telephone" value="<?php echo set_value('telephone');?>" id="telephone" name="telephone" class="form-control" maxlength="10" minlength="10" />
                                                         </div>  
-                                                        <label id="email-error" class="error"></label>
+                                                        <label id="telephone-error" class="error"></label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="email" class="control-label col-lg-4">Email</label>

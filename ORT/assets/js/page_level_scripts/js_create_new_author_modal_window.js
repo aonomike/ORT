@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function() {
 	$('#btn-submit-staff_modal').click(function(e){
 		e.preventDefault();
 		$(".error").css("color", "red");
@@ -43,37 +43,46 @@ $(document).ready(function(){
 
 			else
 			{
-				var work_item_id=$('#work-items-id').val();
-				var post_url="/ORT/Authors/Create_missing_authors";
-				var new_author_id;
-				$.post(post_url,{'title':title,'first_name':first_name, 'second_name':second_name,
-									'telephone':telephone,'email':email},function(returned_data){
-										new_author_id=returned_data
-										var authors_url="/ORT/Authors/get_author_list";
-										var author_option_string= '<option></option>';
+				if(IsEmail(email))
+				{
+					var work_item_id=$('#work-items-id').val();
+					var post_url="/ORT/Authors/Create_missing_authors";
+					var new_author_id;
+					$.post(post_url,{'title':title,'first_name':first_name, 'second_name':second_name,
+										'telephone':telephone,'email':email},function(returned_data){
+											new_author_id=returned_data
+											alert(new_author_id);
+											var authors_url="/ORT/Authors/get_author_list";
+											var author_option_string= '<option></option>';
 
-										$.post(authors_url, {'work_item_id':work_item_id},function(data){
-												
-											$.each(data,function(){
-												author_option_string+='<option value="'+this.author_id+'">';
-												author_option_string+=this.first_name+' '+this.second_name+' '+this.last_name;
-												author_option_string+='</option>';
-											});
-											console.log(author_option_string);
-											$('#author').html('');
-											$('#author').html(author_option_string);
-											$('#author').val(new_author_id);
-											$('#author').selectedIndex(new_author_id);
+											$.post(authors_url, {'work_item_id':work_item_id},function(data){
+													
+												$.each(data,function(){
+													author_option_string+='<option value="'+this.author_id+'">';
+													author_option_string+=this.first_name+' '+this.second_name;
+													author_option_string+='</option>';
+												});
+												$('#author').html('');
+												$('#author').html(author_option_string);
+												$('#author').val(new_author_id);
+												$('#author').selectedIndex(new_author_id);
 
+
+											},'json');
 										},'json');
-									},'json');
-				
-										$('#title').val(-1);
-										$('#first-name').val('');
-										$('#second-name').val('');
-										$('#telephone').val('');
-										$('#email').val('');
-				
+					
+											$('#title').val(-1);
+											$('#first-name').val('');
+											$('#second-name').val('');
+											$('#telephone').val('');
+											$('#email').val('');
+											$('#email-error').html("");
+				}
+				else
+				{
+					$('#email-error').html("invalid email");
+					return false;
+				}
 			}
 		
 	});
@@ -116,6 +125,9 @@ $(document).ready(function(){
 			}
 	}
 
-	
 });
 
+function IsEmail(email) {
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  return regex.test(email);
+}

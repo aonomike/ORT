@@ -9,6 +9,7 @@ class Document extends CI_Controller
 		$this->load->model('document_model');
 		$this->load->model('stage_model');
 		$this->load->model('work_item_stage_output_model');
+		$this->load->model('work_item_model');
 		$this->load->model('rbac_model');		
 	}
 
@@ -105,11 +106,12 @@ class Document extends CI_Controller
 			$work_item_stage_output_id=$this->input->post('wiso');
 			if($this->form_validation->run())
 			{
-				
-				 $data = array('work_item_stage_output_id' =>$work_item_stage_output_id , 
+				$date_assigned= date('Y-m-d', strtotime($this->input->post('date-assigned')));
+				$date_expected_back= date('Y-m-d', strtotime($this->input->post('date-expected-back')));
+				$data = array('work_item_stage_output_id' =>$work_item_stage_output_id , 
 				 	'assigned_to' =>$this->input->post('stage_assigned_to') ,
-				 	'date_assigned'=>$this->input->post('date-assigned'),
-				 	'date_expected_back'=>$this->input->post('date-expected-back'),
+				 	'date_assigned'=>$date_assigned,
+				 	'date_expected_back'=>$date_expected_back,
 				 	'date_created' =>date('Y-m-d H:i:s'),
 				 	'created_by' =>$this->session->userdata('user_id'),
 				 	'last_updated_by' =>$this->session->userdata('user_id'),

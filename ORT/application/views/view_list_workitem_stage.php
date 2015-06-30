@@ -35,7 +35,7 @@
 		                            </tr>
 		                            <tr>
 		                                <th>Work Item</th>
-		                                 <th>Submission Deadline</th>
+		                                <th>Submission Deadline</th>
 		                                <th>Work Item Type</th>
 		                                <th>Stage</th>
 		                                <th>Action</th>

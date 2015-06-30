@@ -33,8 +33,6 @@ class Staff_contact_model extends CI_Model
 		$this->db->update('staff_contact',$data);
 	}
 
-
-
 	//re-instate staff_contact
 	
 	public function recreate_staff_contact_by_id($id)

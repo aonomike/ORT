@@ -9,13 +9,13 @@
 
 <!-- GLOBAL SCRIPTS -->
 <script src="<?php echo base_url()?>assets/plugins/jquery-2.0.3.min.js"></script>
+<script src="<?php echo base_url()?>assets/jquery-ui/jquery-ui.min.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 <!-- END GLOBAL SCRIPTS -->
 
 <!-- PAGE LEVEL SCRIPTS -->
 <script src="<?php echo base_url(); ?>assets/js/myjquery.js"></script>
-<script src="<?php echo base_url()?>assets/js/jquery-ui.min.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/uniform/jquery.uniform.min.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/inputlimiter/jquery.inputlimiter.1.3.1.min.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/chosen/chosen.jquery.min.js"></script>
@@ -24,7 +24,7 @@
 <script src="<?php echo base_url()?>assets/plugins/validVal/js/jquery.validVal.min.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/daterangepicker/daterangepicker.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/daterangepicker/moment.min.js"></script>
-<script src="<?php echo base_url()?>assets/plugins/datepicker/js/bootstrap-datepicker.js"></script>
+<!--<script src="<?php echo base_url()?>assets/plugins/datepicker/js/bootstrap-datepicker.js"></script>-->
 <script src="<?php echo base_url()?>assets/plugins/timepicker/js/bootstrap-timepicker.min.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/switch/static/js/bootstrap-switch.min.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/jquery.dualListbox-1.3/jquery.dualListBox-1.3.min.js"></script>
@@ -39,6 +39,9 @@
 <script src="<?php echo base_url()?>assets/js/page_level_scripts/js_new_author_form_two.js"></script>
 <script src="<?php echo base_url()?>assets/js/page_level_scripts/js_create_new_author_modal_window.js"></script>
 <script src="<?php echo base_url()?>assets/js/page_level_scripts/js_distribution_piechart.js"></script>
+<script src="<?php echo base_url()?>assets/js/page_level_scripts/js_create_work_items_form_two.js"></script>
+<script src="<?php echo base_url()?>assets/js/page_level_scripts/js_create_work_items_relations.js"></script>
+
 
 <!--include charts.js-->
 <script src="<?php echo base_url()?>assets/js/charts-js/Chart.js"></script>
@@ -50,14 +53,10 @@
 <!--include jquery steps master for wizards-->
 <script src="<?php echo base_url()?>assets/plugins/jquery-steps-master/lib/jquery.cookie-1.3.1.js"></script>
 <script src="<?php echo base_url()?>assets/plugins/jquery-steps-master/build/jquery.steps.js"></script>  
-<!--<script src="<?php echo base_url()?>assets/js/WizardInit.js"></script> -->
 
-<!--include bootstrap file-->
-<!--<script src="<?php echo base_url()?>assets/js/bootstrap.min.js"></script>-->
+<!--include bootstrap wizard-->
 <script src="<?php echo base_url()?>assets/js/jquery.bootstrap.wizard.js"></script>
-<!--<script src="<?php echo base_url()?>assets/js/jquery-1.11.2.min.js"></script>-->
-<!--<script src="<?php echo base_url()?>assets/js/jquery-latest.js"></script>-->
-<!-- <script src="http://code.jquery.com/jquery-latest.js"></script> -->
+
 
 <script>
     $(function () { formValidation(); });
@@ -119,6 +118,7 @@
     } );
 
     oTable.column(indexOfMyCol).footer().innerHTML="<p></p>";
+    $('.hide-footer').html('');
 });
 
 
